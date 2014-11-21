@@ -11,12 +11,18 @@ import UIKit
 let screenWidth = UIScreen.mainScreen().bounds.width
 let screenHeight = UIScreen.mainScreen().bounds.height
 
+let diceWidth = CGFloat(90)
+
+func delayClosureWithTime(delay : Double, closure: () -> ()) {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
+}
+
 class ViewController: UIViewController, DiceViewDelegate {
     
     var animator : UIDynamicAnimator!
     var diceBehavior = DiceDynamicBehavior()
     
-    let diceWidth = CGFloat(75)
+    //let diceWidth = CGFloat(90)
     var buttonShake : UIButton!
 
     var diceViewInView : [DiceView] {
@@ -60,6 +66,7 @@ class ViewController: UIViewController, DiceViewDelegate {
         animator = UIDynamicAnimator(referenceView: self.view)
         diceBehavior.collisionBehavior.addBoundaryWithIdentifier("shakeButtonBorder", fromPoint: buttonShake.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - buttonShakeHeight))
         animator.addBehavior(diceBehavior)
+    
     }
     
     func setUpUI() {
@@ -70,6 +77,10 @@ class ViewController: UIViewController, DiceViewDelegate {
     func setUpBackground() {
         var casinoGreenColor = UIColor(hue: 135/360, saturation: 73/100, brightness: 44/100, alpha: 1)
         view.backgroundColor! = casinoGreenColor
+        var backgroundImageView = UIImageView(frame: UIScreen.mainScreen().bounds)
+        backgroundImageView.image = UIImage(named: "pokerTableFelt")
+        backgroundImageView.contentMode = .ScaleAspectFill
+        view.addSubview(backgroundImageView)
     }
     
     let buttonShakeHeight = screenHeight/10
@@ -89,9 +100,6 @@ class ViewController: UIViewController, DiceViewDelegate {
         let screenWidth = UIScreen.mainScreen().bounds.width
         let diceViewXposition = Int(arc4random_uniform(UInt32(screenWidth - diceWidth)))
         var diceView = DiceView(frame: CGRectMake(CGFloat(diceViewXposition), 0, diceWidth, diceWidth))
-        if diceViewInView.count == 0 {
-            diceView.removeGestureRecognizer(diceView.tapGesture!)
-        }
         view.addSubview(diceView)
         diceBehavior.addItem(diceView)
         diceView.delegate = self
@@ -102,6 +110,9 @@ class ViewController: UIViewController, DiceViewDelegate {
     }
     
     func tapOnDiceView(diceView: DiceView) {
+        if diceViewInView.count == 1 {
+            return
+        }
         diceBehavior.removeItem(diceView)
         diceView.removeFromSuperview()
     }
@@ -125,8 +136,6 @@ class ViewController: UIViewController, DiceViewDelegate {
             let offset = UIOffsetMake(-diceWidth/4, diceWidth/4)
             dicePushBehavior.setTargetOffsetFromCenter(offset, forItem: diceView)
             animator.addBehavior(dicePushBehavior)
-            //delaySecondsCallClosure(0.5){ dicePushBehavior.active = false}
-            //diceBehavior.addChildBehavior(dicePushBehavior)
         }
     }
     
@@ -143,6 +152,7 @@ class ViewController: UIViewController, DiceViewDelegate {
 
     func buttonShake(sender: UIButton) {
         rollAllDice()
-        addNewDice()
+        //addNewDice()
     }
+    
 }

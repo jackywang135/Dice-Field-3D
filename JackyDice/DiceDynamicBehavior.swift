@@ -47,8 +47,26 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
         dynamicItemBehavior.removeItem(item)
     }
     
+    let finishAnimationAfterTime = Double(0.75)
+    
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint) {
         gravityBehavior.removeItem(item1)
         gravityBehavior.removeItem(item2)
+        if item1 is DiceView {
+            (item1 as DiceView).animateRollingSlowly()
+            delayClosureWithTime(finishAnimationAfterTime){ (item1 as DiceView).stopAnimating()}
+        }
+        if item2 is DiceView {
+            (item2 as DiceView).animateRollingSlowly()
+            delayClosureWithTime(finishAnimationAfterTime){ (item2 as DiceView).stopAnimating()}
+        }
+    }
+    
+    func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying, atPoint p: CGPoint) {
+        gravityBehavior.removeItem(item)
+        if item is DiceView {
+            (item as DiceView).animateRollingSlowly()
+            delayClosureWithTime(finishAnimationAfterTime){ (item as DiceView).stopAnimating()}
+        }
     }
 }

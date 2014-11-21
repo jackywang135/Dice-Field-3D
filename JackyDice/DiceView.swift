@@ -43,6 +43,7 @@ class DiceView : UIImageView {
     func roll() {
         CATransaction.begin()
         CATransaction.setCompletionBlock({
+            self.shrinkSizeWithInsetValue(-10)
             self.displayAndSetNumber(self.getRandomDiceNumber())})
         animateRolling()
         CATransaction.commit()
@@ -72,9 +73,27 @@ class DiceView : UIImageView {
     }
     
     func animateRolling() {
+        expandSizeWithInsetValue(-insetValue)
         animationImages = diceAnimateImage
-        animationDuration = 0.5
+        //animationDuration = 2
+        animationRepeatCount = 0
+        startAnimating()
+    }
+    
+    func animateRollingSlowly() {
+        expandSizeWithInsetValue(-insetValue)
+        animationImages = diceAnimateImage
+        animationDuration = 0.75
         animationRepeatCount = 1
         startAnimating()
+    }
+    
+    let insetValue = CGFloat(diceWidth * 175 / 300)
+    
+    func shrinkSizeWithInsetValue(float : CGFloat) {
+        self.bounds = CGRectInset(self.bounds, insetValue, insetValue)
+    }
+    func expandSizeWithInsetValue(float: CGFloat) {
+        self.bounds = CGRectInset(self.bounds, -insetValue, -insetValue)
     }
 }
