@@ -1,0 +1,430 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		85879C941A1F727300DFD0E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879C931A1F727300DFD0E0 /* AppDelegate.swift */; };
+		85879C991A1F727300DFD0E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85879C971A1F727300DFD0E0 /* Main.storyboard */; };
+		85879C9B1A1F727300DFD0E0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85879C9A1A1F727300DFD0E0 /* Images.xcassets */; };
+		85879C9E1A1F727300DFD0E0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85879C9C1A1F727300DFD0E0 /* LaunchScreen.xib */; };
+		85879CAA1A1F727400DFD0E0 /* JackyDiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879CA91A1F727400DFD0E0 /* JackyDiceTests.swift */; };
+		85879CB41A1F729100DFD0E0 /* DiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879CB31A1F729100DFD0E0 /* DiceView.swift */; };
+		85879CB61A1F72B000DFD0E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879CB51A1F72B000DFD0E0 /* ViewController.swift */; };
+		85879CB81A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879CB71A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		85879CA41A1F727400DFD0E0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 85879C861A1F727300DFD0E0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 85879C8D1A1F727300DFD0E0;
+			remoteInfo = JackyDice;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		85879C8E1A1F727300DFD0E0 /* JackyDice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JackyDice.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		85879C921A1F727300DFD0E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		85879C931A1F727300DFD0E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		85879C981A1F727300DFD0E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		85879C9A1A1F727300DFD0E0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		85879C9D1A1F727300DFD0E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		85879CA31A1F727400DFD0E0 /* JackyDiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JackyDiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		85879CA81A1F727400DFD0E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		85879CA91A1F727400DFD0E0 /* JackyDiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackyDiceTests.swift; sourceTree = "<group>"; };
+		85879CB31A1F729100DFD0E0 /* DiceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiceView.swift; sourceTree = "<group>"; };
+		85879CB51A1F72B000DFD0E0 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		85879CB71A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiceDynamicBehavior.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		85879C8B1A1F727300DFD0E0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		85879CA01A1F727400DFD0E0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		85879C851A1F727300DFD0E0 = {
+			isa = PBXGroup;
+			children = (
+				85879C901A1F727300DFD0E0 /* JackyDice */,
+				85879CA61A1F727400DFD0E0 /* JackyDiceTests */,
+				85879C8F1A1F727300DFD0E0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		85879C8F1A1F727300DFD0E0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				85879C8E1A1F727300DFD0E0 /* JackyDice.app */,
+				85879CA31A1F727400DFD0E0 /* JackyDiceTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		85879C901A1F727300DFD0E0 /* JackyDice */ = {
+			isa = PBXGroup;
+			children = (
+				85879C931A1F727300DFD0E0 /* AppDelegate.swift */,
+				85879CB31A1F729100DFD0E0 /* DiceView.swift */,
+				85879CB51A1F72B000DFD0E0 /* ViewController.swift */,
+				85879CB71A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift */,
+				85879C971A1F727300DFD0E0 /* Main.storyboard */,
+				85879C9A1A1F727300DFD0E0 /* Images.xcassets */,
+				85879C9C1A1F727300DFD0E0 /* LaunchScreen.xib */,
+				85879C911A1F727300DFD0E0 /* Supporting Files */,
+			);
+			path = JackyDice;
+			sourceTree = "<group>";
+		};
+		85879C911A1F727300DFD0E0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				85879C921A1F727300DFD0E0 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		85879CA61A1F727400DFD0E0 /* JackyDiceTests */ = {
+			isa = PBXGroup;
+			children = (
+				85879CA91A1F727400DFD0E0 /* JackyDiceTests.swift */,
+				85879CA71A1F727400DFD0E0 /* Supporting Files */,
+			);
+			path = JackyDiceTests;
+			sourceTree = "<group>";
+		};
+		85879CA71A1F727400DFD0E0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				85879CA81A1F727400DFD0E0 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		85879C8D1A1F727300DFD0E0 /* JackyDice */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 85879CAD1A1F727400DFD0E0 /* Build configuration list for PBXNativeTarget "JackyDice" */;
+			buildPhases = (
+				85879C8A1A1F727300DFD0E0 /* Sources */,
+				85879C8B1A1F727300DFD0E0 /* Frameworks */,
+				85879C8C1A1F727300DFD0E0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JackyDice;
+			productName = JackyDice;
+			productReference = 85879C8E1A1F727300DFD0E0 /* JackyDice.app */;
+			productType = "com.apple.product-type.application";
+		};
+		85879CA21A1F727400DFD0E0 /* JackyDiceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 85879CB01A1F727400DFD0E0 /* Build configuration list for PBXNativeTarget "JackyDiceTests" */;
+			buildPhases = (
+				85879C9F1A1F727400DFD0E0 /* Sources */,
+				85879CA01A1F727400DFD0E0 /* Frameworks */,
+				85879CA11A1F727400DFD0E0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				85879CA51A1F727400DFD0E0 /* PBXTargetDependency */,
+			);
+			name = JackyDiceTests;
+			productName = JackyDiceTests;
+			productReference = 85879CA31A1F727400DFD0E0 /* JackyDiceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		85879C861A1F727300DFD0E0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = JACKYWANG;
+				TargetAttributes = {
+					85879C8D1A1F727300DFD0E0 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					85879CA21A1F727400DFD0E0 = {
+						CreatedOnToolsVersion = 6.1;
+						TestTargetID = 85879C8D1A1F727300DFD0E0;
+					};
+				};
+			};
+			buildConfigurationList = 85879C891A1F727300DFD0E0 /* Build configuration list for PBXProject "JackyDice" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 85879C851A1F727300DFD0E0;
+			productRefGroup = 85879C8F1A1F727300DFD0E0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				85879C8D1A1F727300DFD0E0 /* JackyDice */,
+				85879CA21A1F727400DFD0E0 /* JackyDiceTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		85879C8C1A1F727300DFD0E0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				85879C991A1F727300DFD0E0 /* Main.storyboard in Resources */,
+				85879C9E1A1F727300DFD0E0 /* LaunchScreen.xib in Resources */,
+				85879C9B1A1F727300DFD0E0 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		85879CA11A1F727400DFD0E0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		85879C8A1A1F727300DFD0E0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				85879CB61A1F72B000DFD0E0 /* ViewController.swift in Sources */,
+				85879CB41A1F729100DFD0E0 /* DiceView.swift in Sources */,
+				85879CB81A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift in Sources */,
+				85879C941A1F727300DFD0E0 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		85879C9F1A1F727400DFD0E0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				85879CAA1A1F727400DFD0E0 /* JackyDiceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		85879CA51A1F727400DFD0E0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 85879C8D1A1F727300DFD0E0 /* JackyDice */;
+			targetProxy = 85879CA41A1F727400DFD0E0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		85879C971A1F727300DFD0E0 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				85879C981A1F727300DFD0E0 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		85879C9C1A1F727300DFD0E0 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				85879C9D1A1F727300DFD0E0 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		85879CAB1A1F727400DFD0E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		85879CAC1A1F727400DFD0E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		85879CAE1A1F727400DFD0E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = JackyDice/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		85879CAF1A1F727400DFD0E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = JackyDice/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		85879CB11A1F727400DFD0E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = JackyDiceTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JackyDice.app/JackyDice";
+			};
+			name = Debug;
+		};
+		85879CB21A1F727400DFD0E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = JackyDiceTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JackyDice.app/JackyDice";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		85879C891A1F727300DFD0E0 /* Build configuration list for PBXProject "JackyDice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				85879CAB1A1F727400DFD0E0 /* Debug */,
+				85879CAC1A1F727400DFD0E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		85879CAD1A1F727400DFD0E0 /* Build configuration list for PBXNativeTarget "JackyDice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				85879CAE1A1F727400DFD0E0 /* Debug */,
+				85879CAF1A1F727400DFD0E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		85879CB01A1F727400DFD0E0 /* Build configuration list for PBXNativeTarget "JackyDiceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				85879CB11A1F727400DFD0E0 /* Debug */,
+				85879CB21A1F727400DFD0E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 85879C861A1F727300DFD0E0 /* Project object */;
+}
