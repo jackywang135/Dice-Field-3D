@@ -14,13 +14,9 @@ let screenHeight = UIScreen.mainScreen().bounds.height
 class ViewController: UIViewController, DiceViewDelegate {
     
     var animator : UIDynamicAnimator!
-    var diceBehavior : UIDynamicBehavior!
-    var collisionBehavior : UICollisionBehavior!
-    var pushBehavior : UIPushBehavior!
-    var gravityBehavior : UIGravityBehavior!
-    var dynamicItemBehavior : UIDynamicItemBehavior!
+    var diceBehavior = DiceDynamicBehavior()
     
-    let diceWidth = CGFloat(100)
+    let diceWidth = CGFloat(75)
     var buttonShake : UIButton!
 
     var diceViewInView : [DiceView] {
@@ -48,12 +44,22 @@ class ViewController: UIViewController, DiceViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        setUpUIDynamicKit()
+        setUpUIDynamics()
         addNewDice()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+    
+    func setUpUIDynamics() {
+        animator = UIDynamicAnimator(referenceView: self.view)
+        diceBehavior.collisionBehavior.addBoundaryWithIdentifier("shakeButtonBorder", fromPoint: buttonShake.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - buttonShakeHeight))
+        animator.addBehavior(diceBehavior)
     }
     
     func setUpUI() {
@@ -78,7 +84,7 @@ class ViewController: UIViewController, DiceViewDelegate {
         view.addSubview(buttonShake)
         
     }
-    
+
     func addNewDice() {
         let screenWidth = UIScreen.mainScreen().bounds.width
         let diceViewXposition = Int(arc4random_uniform(UInt32(screenWidth - diceWidth)))
@@ -87,10 +93,7 @@ class ViewController: UIViewController, DiceViewDelegate {
             diceView.removeGestureRecognizer(diceView.tapGesture!)
         }
         view.addSubview(diceView)
-        collisionBehavior.addItem(diceView)
-        gravityBehavior.addItem(diceView)
-        dynamicItemBehavior.addItem(diceView)
-        delaySecondsCallClosure(3){ self.gravityBehavior.removeItem(diceView) }
+        diceBehavior.addItem(diceView)
         diceView.delegate = self
     }
     
@@ -99,9 +102,7 @@ class ViewController: UIViewController, DiceViewDelegate {
     }
     
     func tapOnDiceView(diceView: DiceView) {
-        collisionBehavior.removeItem(diceView)
-        gravityBehavior.removeItem(diceView)
-        dynamicItemBehavior.removeItem(diceView)
+        diceBehavior.removeItem(diceView)
         diceView.removeFromSuperview()
     }
     
@@ -109,30 +110,6 @@ class ViewController: UIViewController, DiceViewDelegate {
         if motion == UIEventSubtype.MotionShake {
             rollAllDice()
         }
-    }
-    
-    func setUpUIDynamicKit() {
-        animator = UIDynamicAnimator(referenceView: self.view)
-        
-        diceBehavior = UIDynamicBehavior()
-        
-        collisionBehavior = UICollisionBehavior()
-        collisionBehavior.translatesReferenceBoundsIntoBoundary = true
-        collisionBehavior.addBoundaryWithIdentifier("shakeButtonBorder", fromPoint: buttonShake.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - buttonShakeHeight))
-        
-        gravityBehavior = UIGravityBehavior()
-        
-        dynamicItemBehavior = UIDynamicItemBehavior()
-        dynamicItemBehavior.elasticity = 0.5
-        dynamicItemBehavior.resistance = 1
-        dynamicItemBehavior.angularResistance = 1
-        
-        diceBehavior.addChildBehavior(collisionBehavior)
-        diceBehavior.addChildBehavior(gravityBehavior)
-        diceBehavior.addChildBehavior(dynamicItemBehavior)
-        
-        animator.addBehavior(diceBehavior)
-        
     }
     
     func animateDicePush() {
@@ -166,5 +143,6 @@ class ViewController: UIViewController, DiceViewDelegate {
 
     func buttonShake(sender: UIButton) {
         rollAllDice()
+        addNewDice()
     }
 }

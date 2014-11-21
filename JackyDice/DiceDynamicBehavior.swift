@@ -17,6 +17,8 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     
     override init() {
         super.init()
+        setUpCollisionBehavior()
+        setUpDynamicItemBehavior()
         addChildBehavior(collisionBehavior)
         addChildBehavior(dynamicItemBehavior)
         addChildBehavior(gravityBehavior)
@@ -24,6 +26,7 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     
     func setUpCollisionBehavior() {
         collisionBehavior.translatesReferenceBoundsIntoBoundary = true
+        collisionBehavior.collisionDelegate = self
     }
     
     func setUpDynamicItemBehavior() {
