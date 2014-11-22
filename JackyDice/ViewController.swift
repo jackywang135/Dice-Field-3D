@@ -22,7 +22,6 @@ class ViewController: UIViewController, DiceViewDelegate {
     var animator : UIDynamicAnimator!
     var diceBehavior = DiceDynamicBehavior()
     
-    //let diceWidth = CGFloat(90)
     var buttonShake : UIButton!
 
     var diceViewInView : [DiceView] {
@@ -93,7 +92,6 @@ class ViewController: UIViewController, DiceViewDelegate {
         buttonShake.setBackgroundImage(UIImage(named: "wood"), forState: UIControlState.Normal)
         buttonShake.addTarget(self, action: "buttonShake:", forControlEvents: UIControlEvents.TouchUpInside)
         view.addSubview(buttonShake)
-        
     }
 
     func addNewDice() {
@@ -103,10 +101,6 @@ class ViewController: UIViewController, DiceViewDelegate {
         view.addSubview(diceView)
         diceBehavior.addItem(diceView)
         diceView.delegate = self
-    }
-    
-    func delaySecondsCallClosure(delay: Double, closure:() -> ()) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
     }
     
     func tapOnDiceView(diceView: DiceView) {
@@ -133,7 +127,9 @@ class ViewController: UIViewController, DiceViewDelegate {
             dicePushBehavior.angle = radians
             dicePushBehavior.active = true
             dicePushBehavior.addItem(diceView)
-            let offset = UIOffsetMake(-diceWidth/4, diceWidth/4)
+            let randomHorizontalOffset = CGFloat(arc4random_uniform(UInt32(diceWidth/2) - UInt32(diceWidth/4)))
+            let randomVerticalOffset = CGFloat(arc4random_uniform(UInt32(diceWidth/2) - UInt32(diceWidth/4)))
+            let offset = UIOffsetMake(randomHorizontalOffset, randomVerticalOffset)
             dicePushBehavior.setTargetOffsetFromCenter(offset, forItem: diceView)
             animator.addBehavior(dicePushBehavior)
         }
