@@ -11,7 +11,7 @@ import UIKit
 let screenWidth = UIScreen.mainScreen().bounds.width
 let screenHeight = UIScreen.mainScreen().bounds.height
 
-let diceWidth = CGFloat(90)
+let diceWidth = CGFloat(80)
 
 func delayClosureWithTime(delay : Double, closure: () -> ()) {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
@@ -126,7 +126,7 @@ class ViewController: UIViewController, DiceViewDelegate {
     func animateDicePush() {
         for diceView in diceViewInView {
             var dicePushBehavior = UIPushBehavior(items:[diceView], mode: UIPushBehaviorMode.Instantaneous)
-            dicePushBehavior.magnitude = 5
+            dicePushBehavior.magnitude = 7
             let degreeToRadianConverter = CGFloat(M_PI) / CGFloat(180)
             let randomDegree = arc4random_uniform(UInt32(360))
             let radians = CGFloat(randomDegree) * degreeToRadianConverter

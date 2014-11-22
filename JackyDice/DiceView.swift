@@ -81,14 +81,14 @@ class DiceView : UIImageView {
     }
     
     func animateRollingSlowly() {
-        expandSizeWithInsetValue(-insetValue)
+        //expandSizeWithInsetValue(-insetValue)
         animationImages = diceAnimateImage
         animationDuration = 0.75
         animationRepeatCount = 1
         startAnimating()
     }
     
-    let insetValue = CGFloat(diceWidth * 175 / 300)
+    let insetValue = CGFloat(diceWidth * 1 / 6)
     
     func shrinkSizeWithInsetValue(float : CGFloat) {
         self.bounds = CGRectInset(self.bounds, insetValue, insetValue)
