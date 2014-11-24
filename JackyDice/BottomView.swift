@@ -9,26 +9,56 @@
 import Foundation
 import UIKit
 
+protocol BottomViewDelegate {
+    func pressedButtonShake(bottomView : BottomView)
+    func pressedButtonAddDice(bottomView : BottomView)
+}
+
 class BottomView : UIView {
     
     var buttonShake : UIButton!
     var buttonAddDice : UIButton!
+    var totalLabel : UILabel!
+    var delegate : BottomViewDelegate!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setUpButtonAddDice()
+        setUpButtonShake()
     }
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    func setUpButton() {
-        buttonShake = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
-        buttonShake.bounds =
-        
+    func setUpTotalLabel() {
+        totalLabel = UILabel(frame: CGRectMake(bounds.origin.x, bounds.origin.y, bounds.width / 3, bounds.height))
+        addSubview(totalLabel)
     }
     
+    func setUpButtonShake() {
+        buttonShake = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        buttonShake.frame = CGRectMake(bounds.width / 3, 0, bounds.width / 3, bounds.height)
+        buttonShake.setTitle("Shake", forState: UIControlState.Normal)
+        buttonShake.addTarget(self, action:"shake:", forControlEvents: UIControlEvents.TouchUpInside)
+        addSubview(buttonShake)
+    }
     
+    func setUpButtonAddDice() {
+        buttonAddDice = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        buttonAddDice.frame = CGRectMake(bounds.width * 2 / 3, 0 , bounds.width / 3, bounds.height)
+        buttonAddDice.setTitle("Add", forState: UIControlState.Normal)
+        buttonAddDice.addTarget(self, action:"add:", forControlEvents: UIControlEvents.TouchUpInside)
+        addSubview(buttonAddDice)
+    }
+    
+    func shake(sender:UIButton) {
+        delegate.pressedButtonShake(self)
+    }
+    
+    func add(sender:UIButton) {
+        delegate.pressedButtonAddDice(self)
+    }
     
     
     

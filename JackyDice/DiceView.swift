@@ -28,12 +28,22 @@ class DiceView : UIImageView {
         super.init(frame: frame)
         displayAndSetNumber(1)
         initTap()
+        //setUpShadow()
     }
     
     func initTap() {
         tapGesture = UITapGestureRecognizer(target: self, action: "tap:")
         addGestureRecognizer(tapGesture!)
         userInteractionEnabled = true
+    }
+    
+    func setUpShadow() {
+        layer.shadowColor = UIColor.blackColor().CGColor
+        //layer.shadowOffset = CGSizeMake(5, 5)
+        //layer.shadowRadius = 5
+        let shadowWidth = CGFloat(2)
+        layer.shadowOpacity = 1.0
+        layer.shadowPath = UIBezierPath(rect: CGRectMake(bounds.origin.x - shadowWidth, bounds.origin.y - shadowWidth, bounds.width + 2 * shadowWidth, bounds.height + 2 * shadowWidth)).CGPath
     }
     
     func tap(sender:UITapGestureRecognizer) {

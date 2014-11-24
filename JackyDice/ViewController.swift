@@ -17,12 +17,13 @@ func delayClosureWithTime(delay : Double, closure: () -> ()) {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
 }
 
-class ViewController: UIViewController, DiceViewDelegate {
+class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
     var animator : UIDynamicAnimator!
     var diceBehavior = DiceDynamicBehavior()
     
     var buttonShake : UIButton!
+    var bottomView : BottomView!
 
     var diceViewInView : [DiceView] {
         get {
@@ -61,23 +62,30 @@ class ViewController: UIViewController, DiceViewDelegate {
         return false
     }
     
+    func setUpBottomView() {
+        bottomView = BottomView(frame: CGRectMake(0, screenHeight - buttonShakeHeight, buttonShakeWidth, buttonShakeHeight))
+        view.addSubview(bottomView)
+        bottomView.delegate = self
+    }
+    
     func setUpUIDynamics() {
         animator = UIDynamicAnimator(referenceView: self.view)
-        diceBehavior.collisionBehavior.addBoundaryWithIdentifier("shakeButtonBorder", fromPoint: buttonShake.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - buttonShakeHeight))
+        //diceBehavior.collisionBehavior.addBoundaryWithIdentifier("shakeButtonBorder", fromPoint: buttonShake.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - buttonShakeHeight))
         animator.addBehavior(diceBehavior)
     
     }
     
     func setUpUI() {
         setUpBackground()
-        setUpShakeButton()
+        setUpBottomView()
+        //setUpShakeButton()
     }
     
     func setUpBackground() {
         var casinoGreenColor = UIColor(hue: 135/360, saturation: 73/100, brightness: 44/100, alpha: 1)
         view.backgroundColor! = casinoGreenColor
         var backgroundImageView = UIImageView(frame: UIScreen.mainScreen().bounds)
-        backgroundImageView.image = UIImage(named: "pokerTableFeltRed")
+        backgroundImageView.image = UIImage(named: "greenFelt")
         backgroundImageView.contentMode = .ScaleAspectFill
         view.addSubview(backgroundImageView)
     }
@@ -149,6 +157,16 @@ class ViewController: UIViewController, DiceViewDelegate {
     func buttonShake(sender: UIButton) {
         rollAllDice()
         //addNewDice()
+    }
+    
+    //MARK: BottomViewDelegate
+    
+    func pressedButtonAddDice(bottomView: BottomView) {
+        addNewDice()
+    }
+    
+    func pressedButtonShake(bottomView: BottomView) {
+        rollAllDice()
     }
     
 }
