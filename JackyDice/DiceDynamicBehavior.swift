@@ -30,7 +30,7 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     }
     
     func setUpDynamicItemBehavior() {
-        dynamicItemBehavior.elasticity = 0.5
+        dynamicItemBehavior.elasticity = 0.7
         dynamicItemBehavior.resistance = 1
         dynamicItemBehavior.angularResistance = 1
     }
@@ -47,7 +47,7 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
         dynamicItemBehavior.removeItem(item)
     }
     
-    let finishAnimationAfterTime = Double(0.75)
+    let finishAnimationAfterTime = Double(1)
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint) {
         gravityBehavior.removeItem(item1)

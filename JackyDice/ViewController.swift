@@ -11,7 +11,7 @@ import UIKit
 let screenWidth = UIScreen.mainScreen().bounds.width
 let screenHeight = UIScreen.mainScreen().bounds.height
 
-let diceWidth = CGFloat(80)
+let diceWidth = CGFloat(60)
 
 func delayClosureWithTime(delay : Double, closure: () -> ()) {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
@@ -77,7 +77,7 @@ class ViewController: UIViewController, DiceViewDelegate {
         var casinoGreenColor = UIColor(hue: 135/360, saturation: 73/100, brightness: 44/100, alpha: 1)
         view.backgroundColor! = casinoGreenColor
         var backgroundImageView = UIImageView(frame: UIScreen.mainScreen().bounds)
-        backgroundImageView.image = UIImage(named: "pokerTableFelt")
+        backgroundImageView.image = UIImage(named: "pokerTableFeltRed")
         backgroundImageView.contentMode = .ScaleAspectFill
         view.addSubview(backgroundImageView)
     }

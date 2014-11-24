@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8546566F1A20709B00CB3DAA /* BottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8546566E1A20709B00CB3DAA /* BottomView.swift */; };
 		85879C941A1F727300DFD0E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879C931A1F727300DFD0E0 /* AppDelegate.swift */; };
 		85879C991A1F727300DFD0E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85879C971A1F727300DFD0E0 /* Main.storyboard */; };
 		85879C9B1A1F727300DFD0E0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85879C9A1A1F727300DFD0E0 /* Images.xcassets */; };
@@ -28,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8546566E1A20709B00CB3DAA /* BottomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomView.swift; sourceTree = "<group>"; };
 		85879C8E1A1F727300DFD0E0 /* JackyDice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JackyDice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85879C921A1F727300DFD0E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85879C931A1F727300DFD0E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 				85879CB31A1F729100DFD0E0 /* DiceView.swift */,
 				85879CB51A1F72B000DFD0E0 /* ViewController.swift */,
 				85879CB71A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift */,
+				8546566E1A20709B00CB3DAA /* BottomView.swift */,
 				85879C971A1F727300DFD0E0 /* Main.storyboard */,
 				85879C9A1A1F727300DFD0E0 /* Images.xcassets */,
 				85879C9C1A1F727300DFD0E0 /* LaunchScreen.xib */,
@@ -222,6 +225,7 @@
 				85879CB41A1F729100DFD0E0 /* DiceView.swift in Sources */,
 				85879CB81A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift in Sources */,
 				85879C941A1F727300DFD0E0 /* AppDelegate.swift in Sources */,
+				8546566F1A20709B00CB3DAA /* BottomView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,6 +419,7 @@
 				85879CAF1A1F727400DFD0E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		85879CB01A1F727400DFD0E0 /* Build configuration list for PBXNativeTarget "JackyDiceTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +428,7 @@
 				85879CB21A1F727400DFD0E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
