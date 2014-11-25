@@ -11,6 +11,7 @@ import UIKit
 
 protocol DiceViewDelegate {
     func tapOnDiceView(diceView : DiceView)
+    func rollingFinishedOnDiceView(diceview : DiceView)
 }
 
 class DiceView : UIImageView {
@@ -51,14 +52,17 @@ class DiceView : UIImageView {
     }
     
     func roll() {
-        CATransaction.begin()
-        CATransaction.setCompletionBlock({
-            self.shrinkSizeWithInsetValue(-10)
-            self.displayAndSetNumber(self.getRandomDiceNumber())})
-        animateRolling()
-        CATransaction.commit()
+            CATransaction.begin()
+            CATransaction.setCompletionBlock({
+                self.shrinkSizeWithInsetValue(-10)
+                self.displayAndSetNumber(self.getRandomDiceNumber())
+                self.delegate!.rollingFinishedOnDiceView(self)
+            })
+            animateRolling()
+            CATransaction.commit()
+
     }
-    
+
     func getRandomDiceNumber() -> Int {
         return Int(arc4random() % 6) + 1
     }
@@ -85,18 +89,11 @@ class DiceView : UIImageView {
     func animateRolling() {
         expandSizeWithInsetValue(-insetValue)
         animationImages = diceAnimateImage
-        //animationDuration = 2
         animationRepeatCount = 0
         startAnimating()
     }
     
-    func animateRollingSlowly() {
-        //expandSizeWithInsetValue(-insetValue)
-        animationImages = diceAnimateImage
-        animationDuration = 0.75
-        animationRepeatCount = 1
-        startAnimating()
-    }
+    //MARK: Inset
     
     let insetValue = CGFloat(diceWidth * 1 / 6)
     

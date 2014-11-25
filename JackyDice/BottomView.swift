@@ -18,13 +18,14 @@ class BottomView : UIView {
     
     var buttonShake : UIButton!
     var buttonAddDice : UIButton!
-    var totalLabel : UILabel!
+    var labelTotal : UILabel!
     var delegate : BottomViewDelegate!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpButtonAddDice()
         setUpButtonShake()
+        setUpTotalLabel()
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -32,8 +33,8 @@ class BottomView : UIView {
     }
     
     func setUpTotalLabel() {
-        totalLabel = UILabel(frame: CGRectMake(bounds.origin.x, bounds.origin.y, bounds.width / 3, bounds.height))
-        addSubview(totalLabel)
+        labelTotal = UILabel(frame: CGRectMake(0, 0, bounds.width / 3, bounds.height))
+        addSubview(labelTotal)
     }
     
     func setUpButtonShake() {

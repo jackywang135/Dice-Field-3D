@@ -19,12 +19,15 @@ func delayClosureWithTime(delay : Double, closure: () -> ()) {
 
 class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
+    //MARK: UIDynamicKit
     var animator : UIDynamicAnimator!
     var diceBehavior = DiceDynamicBehavior()
     
+    //MARK: UI
     var buttonShake : UIButton!
     var bottomView : BottomView!
 
+    //MARK: Collection & Total
     var diceViewInView : [DiceView] {
         get {
             var array = [DiceView]()
@@ -62,46 +65,42 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         return false
     }
     
-    func setUpBottomView() {
-        bottomView = BottomView(frame: CGRectMake(0, screenHeight - buttonShakeHeight, buttonShakeWidth, buttonShakeHeight))
-        view.addSubview(bottomView)
-        bottomView.delegate = self
-    }
-    
+    //MARK: Set Up
     func setUpUIDynamics() {
         animator = UIDynamicAnimator(referenceView: self.view)
-        //diceBehavior.collisionBehavior.addBoundaryWithIdentifier("shakeButtonBorder", fromPoint: buttonShake.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - buttonShakeHeight))
+        diceBehavior.collisionBehavior.addBoundaryWithIdentifier("shakeButtonBorder",fromPoint: bottomView.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - bottomViewHeight))
         animator.addBehavior(diceBehavior)
-    
+        
+
     }
-    
     func setUpUI() {
         setUpBackground()
         setUpBottomView()
         //setUpShakeButton()
     }
     
+    let bottomViewHeight = screenHeight/10
+    let bottomViewWidth = screenWidth
+    
     func setUpBackground() {
-        var casinoGreenColor = UIColor(hue: 135/360, saturation: 73/100, brightness: 44/100, alpha: 1)
-        view.backgroundColor! = casinoGreenColor
         var backgroundImageView = UIImageView(frame: UIScreen.mainScreen().bounds)
         backgroundImageView.image = UIImage(named: "greenFelt")
         backgroundImageView.contentMode = .ScaleAspectFill
         view.addSubview(backgroundImageView)
     }
     
-    let buttonShakeHeight = screenHeight/10
-    let buttonShakeWidth = screenWidth
-    
-    func setUpShakeButton() {
-        buttonShake = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
-        buttonShake.frame = CGRectMake(0, screenHeight - buttonShakeHeight, buttonShakeWidth, buttonShakeHeight)
-        buttonShake.setTitle("Shake", forState: UIControlState.Normal)
-        buttonShake.setBackgroundImage(UIImage(named: "wood"), forState: UIControlState.Normal)
-        buttonShake.addTarget(self, action: "buttonShake:", forControlEvents: UIControlEvents.TouchUpInside)
-        view.addSubview(buttonShake)
+    func setUpBottomView() {
+        bottomView = BottomView(frame: CGRectMake(0, screenHeight - bottomViewHeight, bottomViewWidth, bottomViewHeight))
+        bottomView.delegate = self
+        updateTotalLabel()
+        view.addSubview(bottomView)
     }
-
+    
+    func updateTotalLabel() {
+        bottomView.labelTotal.text = "\(total)"
+    }
+    
+    //MARK: Dice Functions
     func addNewDice() {
         let screenWidth = UIScreen.mainScreen().bounds.width
         let diceViewXposition = Int(arc4random_uniform(UInt32(screenWidth - diceWidth)))
@@ -109,22 +108,17 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         view.addSubview(diceView)
         diceBehavior.addItem(diceView)
         diceView.delegate = self
+        updateTotalLabel()
     }
     
-    func tapOnDiceView(diceView: DiceView) {
-        if diceViewInView.count == 1 {
-            return
-        }
-        diceBehavior.removeItem(diceView)
-        diceView.removeFromSuperview()
-    }
-    
-    override func motionBegan(motion: UIEventSubtype, withEvent event: UIEvent) {
-        if motion == UIEventSubtype.MotionShake {
-            rollAllDice()
+    func rollAllDice() {
+        animateDicePush()
+        for diceView in diceViewInView {
+            diceView.roll()
         }
     }
     
+    //MARK: Animation
     func animateDicePush() {
         for diceView in diceViewInView {
             var dicePushBehavior = UIPushBehavior(items:[diceView], mode: UIPushBehaviorMode.Instantaneous)
@@ -143,24 +137,29 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         }
     }
     
-    func rollAllDice() {
-        animateDicePush()
-        for diceView in diceViewInView {
-            diceView.roll()
+    //MARK: Motion Detection
+    override func motionBegan(motion: UIEventSubtype, withEvent event: UIEvent) {
+        if motion == UIEventSubtype.MotionShake {
+            rollAllDice()
         }
     }
     
-    func buttonAddPressed(sender: UIButton) {
-        addNewDice()
+    
+    //MARK: DiceViewDelegate
+    func rollingFinishedOnDiceView(diceview : DiceView) {
+        updateTotalLabel()
     }
-
-    func buttonShake(sender: UIButton) {
-        rollAllDice()
-        //addNewDice()
+    
+    func tapOnDiceView(diceView: DiceView) {
+        if diceViewInView.count == 1 {
+            return
+        }
+        diceBehavior.removeItem(diceView)
+        diceView.removeFromSuperview()
+        updateTotalLabel()
     }
     
     //MARK: BottomViewDelegate
-    
     func pressedButtonAddDice(bottomView: BottomView) {
         addNewDice()
     }
