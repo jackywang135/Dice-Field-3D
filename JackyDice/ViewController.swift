@@ -9,13 +9,24 @@
 import UIKit
 import AVFoundation
 
+//MARK: Global Variables
+
 let screenWidth = UIScreen.mainScreen().bounds.width
 let screenHeight = UIScreen.mainScreen().bounds.height
 
 let diceWidth = CGFloat(60)
 
+//MARK: Global Functions
+
 func delayClosureWithTime(delay : Double, closure: () -> ()) {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
+}
+
+func performClosureAfterAnimationFinish(animation:()->(), closure:()->()) {
+    CATransaction.begin()
+    CATransaction.setCompletionBlock(closure)
+    animation()
+    CATransaction.commit()
 }
 
 class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {

@@ -19,6 +19,7 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
         super.init()
         setUpCollisionBehavior()
         setUpDynamicItemBehavior()
+        setUpGravityBehavior()
         addChildBehavior(collisionBehavior)
         addChildBehavior(dynamicItemBehavior)
         addChildBehavior(gravityBehavior)
@@ -35,6 +36,10 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
         dynamicItemBehavior.angularResistance = 1
     }
     
+    func setUpGravityBehavior() {
+        gravityBehavior.magnitude = 3
+    }
+    
     func addItem(item : UIDynamicItem) {
         collisionBehavior.addItem(item)
         gravityBehavior.addItem(item)
@@ -48,6 +53,7 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     }
     
     //MARK: Collision Delegate methods
+    
     let finishAnimationAfterTime = Double(1)
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint) {

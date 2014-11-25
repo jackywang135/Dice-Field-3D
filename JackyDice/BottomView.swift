@@ -33,7 +33,7 @@ class BottomView : UIView {
         super.init(coder: aDecoder)
     }
     
-    let font = UIFont(name: "HelveticaNeue", size: 40)
+    let font = UIFont(name: "HelveticaNeue", size: 60)
     let color = UIColor.whiteColor()
     
     func setUpTotalLabel() {
@@ -54,18 +54,17 @@ class BottomView : UIView {
         buttonShake.frame = CGRectMake(bounds.width / 3, 0, bounds.width / 3, bounds.height)
         buttonShake.setTitle("Shake", forState: UIControlState.Normal)
         buttonShake.titleLabel!.adjustsFontSizeToFitWidth = true
+        buttonShake.titleLabel!.textAlignment = NSTextAlignment.Center
         buttonShake.titleLabel!.font = font
         buttonShake.addTarget(self, action:"shake:", forControlEvents: UIControlEvents.TouchUpInside)
+
+        buttonShake.layer.borderColor = UIColor(white: 1, alpha: 0.5).CGColor
+        buttonShake.layer.borderWidth = screenWidth/300
+        buttonShake.layer.cornerRadius = screenWidth/25
         
-//        buttonShake.layer.borderColor = UIColor(white: 1.0, alpha: 0.3).CGColor
-//        buttonShake.layer.borderWidth = 5
-//        buttonShake.layer.cornerRadius = 0
-        
-        //buttonShake.backgroundColor = UIColor(patternImage: UIImage(named: "wood")!)
-        
-        buttonShake.layer.shadowColor = UIColor.blackColor().CGColor
-        buttonShake.layer.shadowOffset = CGSizeMake(0, -3)
-        buttonShake.layer.shadowRadius = 5
+//        buttonShake.layer.shadowColor = UIColor.blackColor().CGColor
+//        buttonShake.layer.shadowOffset = CGSizeMake(0, -3)
+//        buttonShake.layer.shadowRadius = 5
         addSubview(buttonShake)
     }
     
@@ -75,6 +74,7 @@ class BottomView : UIView {
         buttonAddDice.setTitle("+", forState: UIControlState.Normal)
         buttonAddDice.titleLabel!.adjustsFontSizeToFitWidth = true
         buttonAddDice.titleLabel!.font = font
+        buttonAddDice.titleLabel!.textAlignment = NSTextAlignment.Center
         buttonAddDice.addTarget(self, action:"add:", forControlEvents: UIControlEvents.TouchUpInside)
         addSubview(buttonAddDice)
     }
