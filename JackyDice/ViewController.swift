@@ -54,6 +54,8 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         }
     }
     
+    //MARK: Functions
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
@@ -95,7 +97,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
     
     func updateTotalLabel() {
-        let animationDuration = NSTimeInterval(1)
+        let animationDuration = NSTimeInterval(0.5)
         UIView.transitionWithView(self.bottomView.labelTotal, duration: animationDuration, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: {self.bottomView.labelTotal.text = "\(self.total)" }, completion: nil)
     }
     
@@ -107,6 +109,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
     
     //MARK: Dice Functions
+    
     func addNewDice() {
         let screenWidth = UIScreen.mainScreen().bounds.width
         let diceViewXposition = Int(arc4random_uniform(UInt32(screenWidth - diceWidth)))
@@ -120,12 +123,18 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     func rollAllDice() {
         playSoundEffect()
         animateDicePush()
+        CATransaction.begin()
+        CATransaction.setCompletionBlock({
+            self.updateTotalLabel()
+        })
         for diceView in diceViewInView {
             diceView.roll()
         }
+        CATransaction.commit()
     }
     
     //MARK: Animation
+    
     func animateDicePush() {
         for diceView in diceViewInView {
             var dicePushBehavior = UIPushBehavior(items:[diceView], mode: UIPushBehaviorMode.Instantaneous)
@@ -145,6 +154,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
     
     //MARK: Motion Detection
+    
     override func motionBegan(motion: UIEventSubtype, withEvent event: UIEvent) {
         if motion == UIEventSubtype.MotionShake {
             rollAllDice()
@@ -152,19 +162,15 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
     
     //MARK: Sound effect 
+    
     func playSoundEffect() {
         audioPlayer = AVAudioPlayer(contentsOfURL: shakeAndRollSound, error: nil)
         audioPlayer.play()
     }
     
-    
     //MARK: DiceViewDelegate
-    func rollingFinishedOnDiceView(diceview : DiceView) {
-        updateTotalLabel()
-    }
     
     func tapOnDiceView(diceView: DiceView) {
-        
         if diceViewInView.count == 1 {
             return
         }
@@ -174,11 +180,12 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
     
     //MARK: BottomViewDelegate
+    
     func pressedButtonAddDice(bottomView: BottomView) {
         addNewDice()
     }
+    
     func pressedButtonShake(bottomView: BottomView) {
         rollAllDice()
     }
-    
 }

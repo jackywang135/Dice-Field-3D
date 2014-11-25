@@ -11,7 +11,6 @@ import UIKit
 
 protocol DiceViewDelegate {
     func tapOnDiceView(diceView : DiceView)
-    func rollingFinishedOnDiceView(diceview : DiceView)
 }
 
 class DiceView : UIImageView {
@@ -56,11 +55,9 @@ class DiceView : UIImageView {
             CATransaction.setCompletionBlock({
                 self.shrinkSizeWithInsetValue(-10)
                 self.displayAndSetNumber(self.getRandomDiceNumber())
-                self.delegate!.rollingFinishedOnDiceView(self)
             })
             animateRolling()
             CATransaction.commit()
-
     }
 
     func getRandomDiceNumber() -> Int {
