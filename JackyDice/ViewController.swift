@@ -95,7 +95,8 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
     
     func updateTotalLabel() {
-        bottomView.labelTotal.text = "\(total)"
+        let animationDuration = NSTimeInterval(1)
+        UIView.transitionWithView(self.bottomView.labelTotal, duration: animationDuration, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: {self.bottomView.labelTotal.text = "\(self.total)" }, completion: nil)
     }
     
     func setUpUIDynamics() {

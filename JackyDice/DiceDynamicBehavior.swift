@@ -51,8 +51,6 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     let finishAnimationAfterTime = Double(1)
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint) {
-        gravityBehavior.removeItem(item1)
-        gravityBehavior.removeItem(item2)
         if item1 is DiceView {
             delayClosureWithTime(finishAnimationAfterTime){ (item1 as DiceView).stopAnimating()}
         }
