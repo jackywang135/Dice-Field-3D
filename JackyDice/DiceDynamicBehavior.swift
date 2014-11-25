@@ -37,7 +37,7 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     }
     
     func setUpGravityBehavior() {
-        gravityBehavior.magnitude = 3
+        gravityBehavior.magnitude = 15
     }
     
     func addItem(item : UIDynamicItem) {

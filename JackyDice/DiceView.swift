@@ -11,6 +11,7 @@ import UIKit
 
 protocol DiceViewDelegate {
     func tapOnDiceView(diceView : DiceView)
+    func getDiceAnimateImageForDiceView(diceView : DiceView) -> [UIImage]
 }
 
 class DiceView : UIImageView {
@@ -63,19 +64,20 @@ class DiceView : UIImageView {
     
     //MARK: Animation
 
-    var diceAnimateImage : [UIImage] {
-        get {
-            var diceImageArray = [UIImage]()
-            for index in 1...13 {
-                diceImageArray.append(UIImage(named: "dice\(index)")!)
-            }
-            return diceImageArray
-        }
-    }
+//    var diceAnimateImage : [UIImage] {
+//        get {
+//            var diceImageArray = [UIImage]()
+//            for index in 1...13 {
+//                diceImageArray.append(UIImage(named: "dice\(index)")!)
+//            }
+//            return diceImageArray
+//        }
+//    }
     
     func animateRolling() {
         expandSizeWithInsetValue(-insetValue)
-        animationImages = diceAnimateImage
+        //animationImages = diceAnimateImage
+        animationImages = delegate!.getDiceAnimateImageForDiceView(self)
         animationRepeatCount = 0
         startAnimating()
     }

@@ -87,6 +87,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     func setUpUI() {
         setUpBackground()
         setUpBottomView()
+        setUpDiceAnimateImage()
         //setUpShakeButton()
     }
     
@@ -188,6 +189,20 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         diceBehavior.removeItem(diceView)
         diceView.removeFromSuperview()
         updateTotalLabel()
+    }
+    
+    var diceAnimateImage = [UIImage]()
+    
+    func setUpDiceAnimateImage() {
+        var diceImageArray = [UIImage]()
+        for index in 1...13 {
+            diceImageArray.append(UIImage(named: "dice\(index)")!)
+        }
+        diceAnimateImage = diceImageArray
+    }
+    
+    func getDiceAnimateImageForDiceView(diceView : DiceView) -> [UIImage]{
+        return diceAnimateImage
     }
     
     //MARK: BottomViewDelegate
