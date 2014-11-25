@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 let screenWidth = UIScreen.mainScreen().bounds.width
 let screenHeight = UIScreen.mainScreen().bounds.height
@@ -19,13 +20,16 @@ func delayClosureWithTime(delay : Double, closure: () -> ()) {
 
 class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
+    //MARK: UI
+    var bottomView : BottomView!
+    
     //MARK: UIDynamicKit
     var animator : UIDynamicAnimator!
     var diceBehavior = DiceDynamicBehavior()
     
-    //MARK: UI
-    var buttonShake : UIButton!
-    var bottomView : BottomView!
+    //MARK: Sound 
+    var shakeAndRollSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("ShakeAndRollDice", ofType: "mp3")!)
+    var audioPlayer = AVAudioPlayer()
 
     //MARK: Collection & Total
     var diceViewInView : [DiceView] {
@@ -66,13 +70,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
     
     //MARK: Set Up
-    func setUpUIDynamics() {
-        animator = UIDynamicAnimator(referenceView: self.view)
-        diceBehavior.collisionBehavior.addBoundaryWithIdentifier("shakeButtonBorder",fromPoint: bottomView.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - bottomViewHeight))
-        animator.addBehavior(diceBehavior)
-        
 
-    }
     func setUpUI() {
         setUpBackground()
         setUpBottomView()
@@ -100,6 +98,13 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         bottomView.labelTotal.text = "\(total)"
     }
     
+    func setUpUIDynamics() {
+        animator = UIDynamicAnimator(referenceView: self.view)
+        diceBehavior.collisionBehavior.addBoundaryWithIdentifier("shakeButtonBorder",fromPoint: bottomView.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - bottomViewHeight))
+        animator.addBehavior(diceBehavior)
+    }
+    
+    
     //MARK: Dice Functions
     func addNewDice() {
         let screenWidth = UIScreen.mainScreen().bounds.width
@@ -112,6 +117,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
     
     func rollAllDice() {
+        playSoundEffect()
         animateDicePush()
         for diceView in diceViewInView {
             diceView.roll()
@@ -144,6 +150,12 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         }
     }
     
+    //MARK: Sound effect 
+    func playSoundEffect() {
+        audioPlayer = AVAudioPlayer(contentsOfURL: shakeAndRollSound, error: nil)
+        audioPlayer.play()
+    }
+    
     
     //MARK: DiceViewDelegate
     func rollingFinishedOnDiceView(diceview : DiceView) {
@@ -151,6 +163,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
     
     func tapOnDiceView(diceView: DiceView) {
+        
         if diceViewInView.count == 1 {
             return
         }
@@ -163,7 +176,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     func pressedButtonAddDice(bottomView: BottomView) {
         addNewDice()
     }
-    
     func pressedButtonShake(bottomView: BottomView) {
         rollAllDice()
     }
