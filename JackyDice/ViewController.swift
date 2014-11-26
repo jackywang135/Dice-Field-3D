@@ -42,6 +42,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     //MARK: Sound Properties
     var shakeAndRollSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("ShakeAndRollDice", ofType: "mp3")!)
     var audioPlayer = AVAudioPlayer()
+    var audioSession = AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient, error: nil)
 
     //MARK: Collection & Total Properties
     var diceViewInView : [DiceView] {
