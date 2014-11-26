@@ -89,6 +89,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         setUpBackground()
         setUpBottomView()
         setUpDiceAnimateImage()
+        setUpDiceImage()
         setUpDiceLimit()
         setUpUIDynamics()
     }
@@ -119,6 +120,16 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
             diceImageArray.append(UIImage(named: "dice\(index)")!)
         }
         diceAnimateImage = diceImageArray
+    }
+    
+    var diceImage = [UIImage]()
+    
+    func setUpDiceImage() {
+        var diceImageArray = [UIImage]()
+        for index in 1...6 {
+            diceImageArray.append(UIImage(named: "\(index)")!)
+        }
+        diceImage = diceImageArray
     }
     
     func setUpDiceLimit() {
@@ -169,13 +180,15 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         let screenWidth = UIScreen.mainScreen().bounds.width
         let diceViewXposition = Int(arc4random_uniform(UInt32(screenWidth - diceWidth)))
         var diceView = DiceView(frame: CGRectMake(CGFloat(diceViewXposition), 0, diceWidth, diceWidth))
+        diceView.delegate = self
+        diceView.displayAndSetNumber(1)
         view.addSubview(diceView)
         diceBehavior.addItem(diceView)
-        diceView.delegate = self
     }
 
     func rollAllDice() {
-        self.bottomView.buttonShake.enabled = false
+        
+        bottomView.buttonShake.enabled = false
         playSoundEffect()
         animateDicePush()
         CATransaction.begin()
@@ -250,6 +263,11 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
     func getDiceAnimateImageForDiceView(diceView : DiceView) -> [UIImage]{
         return diceAnimateImage
+    }
+    
+    func getDiceImageForDiceView(diceView:DiceView, num : Int) -> UIImage {
+        let image = diceImage[(num - 1)] as UIImage
+        return image
     }
     
     //MARK: BottomViewDelegate

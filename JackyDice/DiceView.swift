@@ -12,6 +12,7 @@ import UIKit
 protocol DiceViewDelegate {
     func tapOnDiceView(diceView : DiceView)
     func getDiceAnimateImageForDiceView(diceView : DiceView) -> [UIImage]
+    func getDiceImageForDiceView(diceView:DiceView, num : Int) -> UIImage
 }
 
 class DiceView : UIImageView {
@@ -27,7 +28,7 @@ class DiceView : UIImageView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        displayAndSetNumber(1)
+        //displayAndSetNumber(1)
         initTap()
     }
     
@@ -57,9 +58,9 @@ class DiceView : UIImageView {
     
     //MARK: Image
     
-    func displayAndSetNumber(num:Int) {
-        image = UIImage(named:"\(num)")
-        number = num
+    func displayAndSetNumber(n:Int) {
+        image = delegate!.getDiceImageForDiceView(self, num: n)
+        number = n
     }
     
     //MARK: Animation
