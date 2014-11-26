@@ -25,18 +25,18 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
         addChildBehavior(gravityBehavior)
     }
     
-    func setUpCollisionBehavior() {
+    private func setUpCollisionBehavior() {
         collisionBehavior.translatesReferenceBoundsIntoBoundary = true
         collisionBehavior.collisionDelegate = self
     }
     
-    func setUpDynamicItemBehavior() {
+    private func setUpDynamicItemBehavior() {
         dynamicItemBehavior.elasticity = 0.65
         dynamicItemBehavior.resistance = 1
         dynamicItemBehavior.angularResistance = 1
     }
     
-    func setUpGravityBehavior() {
+    private func setUpGravityBehavior() {
         gravityBehavior.magnitude = 15
     }
     

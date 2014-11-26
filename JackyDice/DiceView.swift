@@ -15,11 +15,6 @@ protocol DiceViewDelegate {
     func getDiceImageForDiceView(diceView:DiceView, num : Int) -> UIImage
 }
 
-//protocol DiceViewImageGetterDelegate {
-//    func getDiceAnimateImageForDiceView(diceView : DiceView) -> [UIImage]
-//    func getDiceImageForDiceView(diceView:DiceView, num : Int) -> UIImage
-//}
-
 class DiceView : UIImageView {
     
     var delegate : DiceViewDelegate?
@@ -34,10 +29,10 @@ class DiceView : UIImageView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         //displayAndSetNumber(1)
-        initTap()
+        setUpTap()
     }
     
-    func initTap() {
+    private func setUpTap() {
         tapGesture = UITapGestureRecognizer(target: self, action: "tap:")
         addGestureRecognizer(tapGesture!)
         userInteractionEnabled = true

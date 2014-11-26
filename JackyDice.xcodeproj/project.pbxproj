@@ -88,11 +88,11 @@
 			isa = PBXGroup;
 			children = (
 				85879C931A1F727300DFD0E0 /* AppDelegate.swift */,
-				85879CB31A1F729100DFD0E0 /* DiceView.swift */,
 				85879CB51A1F72B000DFD0E0 /* ViewController.swift */,
+				85879CB31A1F729100DFD0E0 /* DiceView.swift */,
+				8546566E1A20709B00CB3DAA /* BottomView.swift */,
 				85879CB71A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift */,
 				C764A2C21A25CDB2003B5B99 /* DiceImageHelper.swift */,
-				8546566E1A20709B00CB3DAA /* BottomView.swift */,
 				85879C971A1F727300DFD0E0 /* Main.storyboard */,
 				85879C9A1A1F727300DFD0E0 /* Images.xcassets */,
 				85879C9C1A1F727300DFD0E0 /* LaunchScreen.xib */,

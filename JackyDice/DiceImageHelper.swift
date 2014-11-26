@@ -12,14 +12,14 @@ import UIKit
 class DiceImageHelper {
 
     var diceAnimateImage = [UIImage]()
-    var diceImage = [UIImage]()
+    private var diceImage = [UIImage]()
     
     init() {
         setUpDiceAnimateImage()
         setUpDiceImage()
     }
     
-    func setUpDiceAnimateImage() {
+    private func setUpDiceAnimateImage() {
         var diceImageArray = [UIImage]()
         for index in 1...13 {
             diceImageArray.append(UIImage(named: "dice\(index)")!)
@@ -27,7 +27,7 @@ class DiceImageHelper {
         diceAnimateImage = diceImageArray
     }
     
-    func setUpDiceImage() {
+    private func setUpDiceImage() {
         var diceImageArray = [UIImage]()
         for index in 1...6 {
             diceImageArray.append(UIImage(named: "\(index)")!)

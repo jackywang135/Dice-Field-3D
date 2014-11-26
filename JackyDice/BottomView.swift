@@ -33,11 +33,10 @@ class BottomView : UIView {
         super.init(coder: aDecoder)
     }
     
-    let font = UIFont(name: "HelveticaNeue", size: 40)
-    //let font = UIFont.systemFontOfSize(80)
-    let color = UIColor.whiteColor()
+    private let font = UIFont(name: "HelveticaNeue", size: 40)
+    private let color = UIColor.whiteColor()
     
-    func setUpTotalLabel() {
+    private func setUpTotalLabel() {
         labelTotal = UILabel(frame: CGRectMake(0, 0, bounds.width / 3, bounds.height))
         labelTotal.adjustsFontSizeToFitWidth = true
         labelTotal.font = font
@@ -46,14 +45,16 @@ class BottomView : UIView {
         addSubview(labelTotal)
     }
     
-    func setUpBackgroundImage() {
+    private func setUpBackgroundImage() {
         backgroundColor = UIColor(patternImage: UIImage(named: "wood")!)
     }
     
-    func setUpButtonShake() {
+    private func setUpButtonShake() {
         buttonShake = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
         buttonShake.frame = CGRectMake(bounds.width / 3, 0, bounds.width / 3, bounds.height)
         buttonShake.setTitle("Shake", forState: UIControlState.Normal)
+        buttonShake.setTitle("Rolling", forState: UIControlState.Disabled)
+        buttonShake.setTitleColor(UIColor.blackColor(), forState: UIControlState.Disabled)
         buttonShake.titleLabel!.adjustsFontSizeToFitWidth = true
         buttonShake.titleLabel!.font = font
         buttonShake.titleLabel!.textAlignment = NSTextAlignment.Center
@@ -67,7 +68,7 @@ class BottomView : UIView {
         addSubview(buttonShake)
     }
     
-    func setUpButtonAddDice() {
+    private func setUpButtonAddDice() {
         buttonAddDice = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
         buttonAddDice.frame = CGRectMake(bounds.width * 2 / 3, 0 , bounds.width / 3, bounds.height)
         buttonAddDice.setTitle("+", forState: UIControlState.Normal)

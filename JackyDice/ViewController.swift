@@ -86,37 +86,37 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
     //MARK: Set Up Functions
 
-    func setUpUI() {
+    private func setUpUI() {
         setUpBackground()
         setUpBottomView()
         setUpDiceLimit()
         setUpUIDynamics()
     }
     
-    let bottomViewHeight = screenHeight/10
-    let bottomViewWidth = screenWidth
+    private let bottomViewHeight = screenHeight/10
+    private let bottomViewWidth = screenWidth
     
-    func setUpBackground() {
+    private func setUpBackground() {
         var backgroundImageView = UIImageView(frame: UIScreen.mainScreen().bounds)
         backgroundImageView.image = UIImage(named: "greenFelt")
         backgroundImageView.contentMode = .ScaleAspectFill
         view.addSubview(backgroundImageView)
     }
     
-    func setUpBottomView() {
+    private func setUpBottomView() {
         bottomView = BottomView(frame: CGRectMake(0, screenHeight - bottomViewHeight, bottomViewWidth, bottomViewHeight))
         bottomView.delegate = self
         updateTotalLabel()
         view.addSubview(bottomView)
     }
     
-    func setUpDiceLimit() {
+    private func setUpDiceLimit() {
         let spaceEachDiceNeeds = 5
         let diceNumberLimit = Int((screenWidth * screenHeight) / (diceWidth * diceWidth)) / spaceEachDiceNeeds
         diceNumberLimitRounded = diceNumberLimit / 5 * 5
     }
     
-    func setUpUIDynamics() {
+    private func setUpUIDynamics() {
         animator = UIDynamicAnimator(referenceView: self.view)
         diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewBorder",fromPoint: bottomView.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - bottomViewHeight))
         animator.addBehavior(diceBehavior)
@@ -126,17 +126,17 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
     let animationBottomViewDuration = NSTimeInterval(0.5)
     
-    func updateTotalLabel() {
+    private func updateTotalLabel() {
         UIView.transitionWithView(self.bottomView.labelTotal, duration: animationBottomViewDuration, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: {self.bottomView.labelTotal.text = "\(self.total)" }, completion: nil)
     }
     
-    func buttonAddDiceShouldEnable(bool : Bool) {
+    private func buttonAddDiceShouldEnable(bool : Bool) {
         UIView.transitionWithView(bottomView.buttonAddDice, duration: animationBottomViewDuration, options:UIViewAnimationOptions.TransitionFlipFromLeft, animations: {self.bottomView.buttonAddDice.enabled = bool}, completion: nil)
     }
     
     //MARK: Dice Functions
     
-    func addNewDice() {
+    private func addNewDice() {
         func diceLimitReached() -> Bool {
             if diceViewInView.count >= diceNumberLimitRounded {
                 return true
@@ -153,7 +153,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         }
     }
     
-    func addNewDiceInView() {
+    private func addNewDiceInView() {
         let screenWidth = UIScreen.mainScreen().bounds.width
         let diceViewXposition = Int(arc4random_uniform(UInt32(screenWidth - diceWidth)))
         var diceView = DiceView(frame: CGRectMake(CGFloat(diceViewXposition), 0, diceWidth, diceWidth))
@@ -163,7 +163,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         diceBehavior.addItem(diceView)
     }
 
-    func rollAllDice() {
+    private func rollAllDice() {
         bottomView.buttonShake.enabled = false
         playSoundEffect()
         animateDicePush()
@@ -180,7 +180,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
     //MARK: Animation
     
-    func animateDicePush() {
+    private func animateDicePush() {
         for diceView in diceViewInView {
             var dicePushBehavior = UIPushBehavior(items:[diceView], mode: UIPushBehaviorMode.Instantaneous)
             dicePushBehavior.magnitude = 7
@@ -192,11 +192,11 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         }
     }
     
-    func getRandomRadians() -> CGFloat {
+    private func getRandomRadians() -> CGFloat {
         return CGFloat(arc4random_uniform(UInt32(2*M_PI)))
     }
     
-    func getRandomOffset() -> UIOffset {
+    private func getRandomOffset() -> UIOffset {
         let randomHorizontalOffset = CGFloat(arc4random_uniform(UInt32(diceWidth/2) - UInt32(diceWidth/4)))
         let randomVerticalOffset = CGFloat(arc4random_uniform(UInt32(diceWidth/2) - UInt32(diceWidth/4)))
         return UIOffsetMake(randomHorizontalOffset, randomVerticalOffset)
@@ -212,7 +212,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
     //MARK: Sound effect 
     
-    func playSoundEffect() {
+    private func playSoundEffect() {
         audioPlayer = AVAudioPlayer(contentsOfURL: shakeAndRollSound, error: nil)
         audioPlayer.play()
     }
