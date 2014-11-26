@@ -15,9 +15,6 @@ let screenWidth = UIScreen.mainScreen().bounds.width
 let screenHeight = UIScreen.mainScreen().bounds.height
 
 let diceWidth = CGFloat(60)
-let spaceEachDiceNeeds = 5
-let diceNumberLimit = Int((screenWidth * screenHeight) / (diceWidth * diceWidth)) / spaceEachDiceNeeds
-let diceNumberLimitRounded = diceNumberLimit / 5 * 5
 
 //MARK: Global Functions
 
@@ -34,18 +31,19 @@ func performClosureAfterAnimationFinish(animation:()->(), closure:()->()) {
 
 class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
-    //MARK: UI
+    //MARK: UI Properties
     var bottomView : BottomView!
+    var diceNumberLimitRounded = 10
     
-    //MARK: UIDynamicKit
+    //MARK: UIDynamicKit Properties
     var animator : UIDynamicAnimator!
     var diceBehavior = DiceDynamicBehavior()
     
-    //MARK: Sound 
+    //MARK: Sound Properties
     var shakeAndRollSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("ShakeAndRollDice", ofType: "mp3")!)
     var audioPlayer = AVAudioPlayer()
 
-    //MARK: Collection & Total
+    //MARK: Collection & Total Properties
     var diceViewInView : [DiceView] {
         get {
             var array = [DiceView]()
@@ -73,7 +71,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        setUpUIDynamics()
         addNewDice()
     }
 
@@ -85,12 +82,14 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         return false
     }
     
-    //MARK: Set Up
+    //MARK: Set Up Functions
 
     func setUpUI() {
         setUpBackground()
         setUpBottomView()
         setUpDiceAnimateImage()
+        setUpDiceLimit()
+        setUpUIDynamics()
     }
     
     let bottomViewHeight = screenHeight/10
@@ -111,15 +110,38 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         
     }
     
-    func updateTotalLabel() {
-        let animationDuration = NSTimeInterval(0.5)
-        UIView.transitionWithView(self.bottomView.labelTotal, duration: animationDuration, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: {self.bottomView.labelTotal.text = "\(self.total)" }, completion: nil)
+    var diceAnimateImage = [UIImage]()
+    
+    func setUpDiceAnimateImage() {
+        var diceImageArray = [UIImage]()
+        for index in 1...13 {
+            diceImageArray.append(UIImage(named: "dice\(index)")!)
+        }
+        diceAnimateImage = diceImageArray
+    }
+    
+    func setUpDiceLimit() {
+        let spaceEachDiceNeeds = 5
+        let diceNumberLimit = Int((screenWidth * screenHeight) / (diceWidth * diceWidth)) / spaceEachDiceNeeds
+        diceNumberLimitRounded = diceNumberLimit / 5 * 5
     }
     
     func setUpUIDynamics() {
         animator = UIDynamicAnimator(referenceView: self.view)
         diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewBorder",fromPoint: bottomView.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - bottomViewHeight))
         animator.addBehavior(diceBehavior)
+    }
+    
+    //MARK: UI Update Animations
+    
+    let animationBottomViewDuration = NSTimeInterval(0.5)
+    
+    func updateTotalLabel() {
+        UIView.transitionWithView(self.bottomView.labelTotal, duration: animationBottomViewDuration, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: {self.bottomView.labelTotal.text = "\(self.total)" }, completion: nil)
+    }
+    
+    func buttonAddDiceShouldEnable(bool : Bool) {
+        UIView.transitionWithView(bottomView.buttonAddDice, duration: animationBottomViewDuration, options:UIViewAnimationOptions.TransitionFlipFromLeft, animations: {self.bottomView.buttonAddDice.enabled = bool}, completion: nil)
     }
     
     
@@ -132,16 +154,13 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
             }
             return false
         }
-        
         if diceLimitReached() {
             return
         }
-        
         addNewDiceInView()
         updateTotalLabel()
-        
         if diceLimitReached() {
-            bottomView.buttonAddDice.enabled = false
+            buttonAddDiceShouldEnable(false)
         }
     }
     
@@ -173,18 +192,22 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         for diceView in diceViewInView {
             var dicePushBehavior = UIPushBehavior(items:[diceView], mode: UIPushBehaviorMode.Instantaneous)
             dicePushBehavior.magnitude = 7
-            let degreeToRadianConverter = CGFloat(M_PI) / CGFloat(180)
-            let randomDegree = arc4random_uniform(UInt32(360))
-            let radians = CGFloat(randomDegree) * degreeToRadianConverter
-            dicePushBehavior.angle = radians
+            dicePushBehavior.angle = getRandomRadians()
             dicePushBehavior.active = true
             dicePushBehavior.addItem(diceView)
-            let randomHorizontalOffset = CGFloat(arc4random_uniform(UInt32(diceWidth/2) - UInt32(diceWidth/4)))
-            let randomVerticalOffset = CGFloat(arc4random_uniform(UInt32(diceWidth/2) - UInt32(diceWidth/4)))
-            let offset = UIOffsetMake(randomHorizontalOffset, randomVerticalOffset)
-            dicePushBehavior.setTargetOffsetFromCenter(offset, forItem: diceView)
+            dicePushBehavior.setTargetOffsetFromCenter(getRandomOffset(), forItem: diceView)
             animator.addBehavior(dicePushBehavior)
         }
+    }
+    
+    func getRandomRadians() -> CGFloat {
+        return CGFloat(arc4random_uniform(UInt32(2*M_PI)))
+    }
+    
+    func getRandomOffset() -> UIOffset {
+        let randomHorizontalOffset = CGFloat(arc4random_uniform(UInt32(diceWidth/2) - UInt32(diceWidth/4)))
+        let randomVerticalOffset = CGFloat(arc4random_uniform(UInt32(diceWidth/2) - UInt32(diceWidth/4)))
+        return UIOffsetMake(randomHorizontalOffset, randomVerticalOffset)
     }
     
     //MARK: Motion Detection
@@ -214,20 +237,12 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         if onlyOneDiceLeft() {
             return
         }
-        bottomView.buttonAddDice.enabled = true
+        if bottomView.buttonAddDice.enabled == false {
+            buttonAddDiceShouldEnable(true)
+        }
         diceBehavior.removeItem(diceView)
         diceView.removeFromSuperview()
         updateTotalLabel()
-    }
-    
-    var diceAnimateImage = [UIImage]()
-    
-    func setUpDiceAnimateImage() {
-        var diceImageArray = [UIImage]()
-        for index in 1...13 {
-            diceImageArray.append(UIImage(named: "dice\(index)")!)
-        }
-        diceAnimateImage = diceImageArray
     }
     
     func getDiceAnimateImageForDiceView(diceView : DiceView) -> [UIImage]{

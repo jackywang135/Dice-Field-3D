@@ -58,7 +58,6 @@ class BottomView : UIView {
         buttonShake.titleLabel!.font = font
         buttonShake.titleLabel!.textAlignment = NSTextAlignment.Center
         
-
         buttonShake.addTarget(self, action:"shake:", forControlEvents: UIControlEvents.TouchUpInside)
 
         buttonShake.layer.borderColor = UIColor(white: 1, alpha: 0.5).CGColor
