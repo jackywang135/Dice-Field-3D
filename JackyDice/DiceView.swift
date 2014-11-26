@@ -44,7 +44,7 @@ class DiceView : UIImageView {
     func roll() {
             CATransaction.begin()
             CATransaction.setCompletionBlock({
-                self.shrinkSizeWithInsetValue(-10)
+                //self.shrinkSizeWithInsetValue(-10)
                 self.displayAndSetNumber(self.getRandomDiceNumber())
             })
             animateRolling()
@@ -58,25 +58,14 @@ class DiceView : UIImageView {
     //MARK: Image
     
     func displayAndSetNumber(num:Int) {
-        image = UIImage(named:"\(num)")
+        image = UIImage(named:"\(num)_kn")
         number = num
     }
     
     //MARK: Animation
-
-//    var diceAnimateImage : [UIImage] {
-//        get {
-//            var diceImageArray = [UIImage]()
-//            for index in 1...13 {
-//                diceImageArray.append(UIImage(named: "dice\(index)")!)
-//            }
-//            return diceImageArray
-//        }
-//    }
     
     func animateRolling() {
-        expandSizeWithInsetValue(-insetValue)
-        //animationImages = diceAnimateImage
+        //expandSizeWithInsetValue(-insetValue)
         animationImages = delegate!.getDiceAnimateImageForDiceView(self)
         animationRepeatCount = 0
         startAnimating()
@@ -84,12 +73,12 @@ class DiceView : UIImageView {
     
     //MARK: Inset
     
-    let insetValue = CGFloat(diceWidth * 1 / 6)
-    
-    func shrinkSizeWithInsetValue(float : CGFloat) {
-        self.bounds = CGRectInset(self.bounds, insetValue, insetValue)
-    }
-    func expandSizeWithInsetValue(float: CGFloat) {
-        self.bounds = CGRectInset(self.bounds, -insetValue, -insetValue)
-    }
+//    let insetValue = CGFloat(diceWidth * 1 / 6)
+//    
+//    func shrinkSizeWithInsetValue(float : CGFloat) {
+//        self.bounds = CGRectInset(self.bounds, insetValue, insetValue)
+//    }
+//    func expandSizeWithInsetValue(float: CGFloat) {
+//        self.bounds = CGRectInset(self.bounds, -insetValue, -insetValue)
+//    }
 }

@@ -61,10 +61,7 @@ class BottomView : UIView {
         buttonShake.layer.borderColor = UIColor(white: 1, alpha: 0.5).CGColor
         buttonShake.layer.borderWidth = screenWidth/300
         buttonShake.layer.cornerRadius = screenWidth/25
-        
-//        buttonShake.layer.shadowColor = UIColor.blackColor().CGColor
-//        buttonShake.layer.shadowOffset = CGSizeMake(0, -3)
-//        buttonShake.layer.shadowRadius = 5
+
         addSubview(buttonShake)
     }
     

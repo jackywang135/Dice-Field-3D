@@ -88,7 +88,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         setUpBackground()
         setUpBottomView()
         setUpDiceAnimateImage()
-        //setUpShakeButton()
     }
     
     let bottomViewHeight = screenHeight/10
@@ -115,7 +114,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
     func setUpUIDynamics() {
         animator = UIDynamicAnimator(referenceView: self.view)
-        diceBehavior.collisionBehavior.addBoundaryWithIdentifier("shakeButtonBorder",fromPoint: bottomView.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - bottomViewHeight))
+        diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewBorder",fromPoint: bottomView.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - bottomViewHeight))
         animator.addBehavior(diceBehavior)
     }
     
