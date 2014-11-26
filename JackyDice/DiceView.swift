@@ -63,20 +63,9 @@ class DiceView : UIImageView {
     }
     
     //MARK: Animation
-
-//    var diceAnimateImage : [UIImage] {
-//        get {
-//            var diceImageArray = [UIImage]()
-//            for index in 1...13 {
-//                diceImageArray.append(UIImage(named: "dice\(index)")!)
-//            }
-//            return diceImageArray
-//        }
-//    }
     
     func animateRolling() {
         expandSizeWithInsetValue(-insetValue)
-        //animationImages = diceAnimateImage
         animationImages = delegate!.getDiceAnimateImageForDiceView(self)
         animationRepeatCount = 0
         startAnimating()
@@ -84,7 +73,7 @@ class DiceView : UIImageView {
     
     //MARK: Inset
     
-    let insetValue = CGFloat(diceWidth * 1 / 6)
+    let insetValue = CGFloat(diceWidth * 1 / 5)
     
     func shrinkSizeWithInsetValue(float : CGFloat) {
         self.bounds = CGRectInset(self.bounds, insetValue, insetValue)

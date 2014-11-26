@@ -15,6 +15,9 @@ let screenWidth = UIScreen.mainScreen().bounds.width
 let screenHeight = UIScreen.mainScreen().bounds.height
 
 let diceWidth = CGFloat(60)
+let spaceEachDiceNeeds = 5
+let diceNumberLimit = Int((screenWidth * screenHeight) / (diceWidth * diceWidth)) / spaceEachDiceNeeds
+let diceNumberLimitRounded = diceNumberLimit / 5 * 5
 
 //MARK: Global Functions
 
@@ -88,7 +91,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         setUpBackground()
         setUpBottomView()
         setUpDiceAnimateImage()
-        //setUpShakeButton()
     }
     
     let bottomViewHeight = screenHeight/10
@@ -106,6 +108,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         bottomView.delegate = self
         updateTotalLabel()
         view.addSubview(bottomView)
+        
     }
     
     func updateTotalLabel() {
@@ -123,15 +126,34 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     //MARK: Dice Functions
     
     func addNewDice() {
+        func diceLimitReached() -> Bool {
+            if diceViewInView.count >= diceNumberLimitRounded {
+                return true
+            }
+            return false
+        }
+        
+        if diceLimitReached() {
+            return
+        }
+        
+        addNewDiceInView()
+        updateTotalLabel()
+        
+        if diceLimitReached() {
+            bottomView.buttonAddDice.enabled = false
+        }
+    }
+    
+    func addNewDiceInView() {
         let screenWidth = UIScreen.mainScreen().bounds.width
         let diceViewXposition = Int(arc4random_uniform(UInt32(screenWidth - diceWidth)))
         var diceView = DiceView(frame: CGRectMake(CGFloat(diceViewXposition), 0, diceWidth, diceWidth))
         view.addSubview(diceView)
         diceBehavior.addItem(diceView)
         diceView.delegate = self
-        updateTotalLabel()
     }
-    
+
     func rollAllDice() {
         playSoundEffect()
         animateDicePush()
@@ -183,9 +205,16 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     //MARK: DiceViewDelegate
     
     func tapOnDiceView(diceView: DiceView) {
-        if diceViewInView.count == 1 {
+        func onlyOneDiceLeft() -> Bool {
+            if diceViewInView.count == 1 {
+                return true
+            }
+            return false
+        }
+        if onlyOneDiceLeft() {
             return
         }
+        bottomView.buttonAddDice.enabled = true
         diceBehavior.removeItem(diceView)
         diceView.removeFromSuperview()
         updateTotalLabel()
