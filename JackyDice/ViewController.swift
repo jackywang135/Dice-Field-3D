@@ -35,7 +35,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     //MARK: UI Properties
     var bottomView : BottomView!
     var diceNumberLimitRounded = 10
-    var diceImageHelper = DiceImageHelper()
+    var diceImageHelper : DiceImageHelper?
     
     //MARK: UIDynamicKit Properties
     var animator : UIDynamicAnimator!
@@ -73,8 +73,13 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
     //MARK: Functions
     
+    override func loadView() {
+        super.loadView()
+        diceImageHelper = DiceImageHelper()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        diceImageHelper = DiceImageHelper()
         setUpUI()
         addNewDice()
     }
@@ -125,34 +130,34 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewBorder",fromPoint: bottomView.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - bottomViewHeight))
         animator.addBehavior(diceBehavior)
     }
-    
-    var accelerometerHandler : CMAccelerometerHandler = {(data:CMAccelerometerData!, error:NSError?) -> () in
-        let x = data.acceleration.x
-        let y = data.acceleration.y
-        let z = data.acceleration.z
-        println("x:\(x)")
-        println("y:\(y)")
-        println("z:\(z)")
 
-    }
-    
-    
-    func tiltNorth() {
-        
-    }
-    
-    
     private func setUpMotionManager() {
         
         var deviceMotionHandler : CMDeviceMotionHandler = {data, error in
-            let rotationX = data.rotationRate.x
-            let rotationY = data.rotationRate.y
-            let rotationZ = data.rotationRate.z
+            let rotationX = CGFloat(data.rotationRate.x)
+            let rotationY = CGFloat(data.rotationRate.y)
+            
+            for diceView in self.diceViewInView {
+                var diceTiltBehaviorX = UIPushBehavior(items: [diceView], mode: UIPushBehaviorMode.Instantaneous)
+                diceTiltBehaviorX.magnitude = rotationX / 2
+                diceTiltBehaviorX.angle = CGFloat(M_PI_2)
+                diceTiltBehaviorX.active = true
+                diceTiltBehaviorX.addItem(diceView)
+                self.animator.addBehavior(diceTiltBehaviorX)
+            }
+            
+            for diceView in self.diceViewInView {
+                var diceTiltBehaviorY = UIPushBehavior(items: [diceView], mode: UIPushBehaviorMode.Instantaneous)
+                diceTiltBehaviorY.magnitude = rotationY / 2
+                diceTiltBehaviorY.angle = CGFloat(0)
+                diceTiltBehaviorY.active = true
+                diceTiltBehaviorY.addItem(diceView)
+                self.animator.addBehavior(diceTiltBehaviorY)
+            }
         }
         
-        motionManager.deviceMotionUpdateInterval = 0.01
+        motionManager.deviceMotionUpdateInterval = 0.25
         motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler: deviceMotionHandler)
-        
     }
     
     //MARK: UI Update Animations
@@ -271,11 +276,11 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
     
     func getDiceAnimateImageForDiceView(diceView : DiceView) -> [UIImage]{
-        return diceImageHelper.diceAnimateImage
+        return diceImageHelper!.diceAnimateImage
     }
     
     func getDiceImageForDiceView(diceView:DiceView, num : Int) -> UIImage {
-        return diceImageHelper.getDiceImageForNumber(num)
+        return diceImageHelper!.getDiceImageForNumber(num)
     }
     
     //MARK: BottomViewDelegate
