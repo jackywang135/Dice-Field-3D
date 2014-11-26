@@ -136,27 +136,29 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         var deviceMotionHandler : CMDeviceMotionHandler = {data, error in
             let rotationX = CGFloat(data.rotationRate.x)
             let rotationY = CGFloat(data.rotationRate.y)
-            
-            for diceView in self.diceViewInView {
-                var diceTiltBehaviorX = UIPushBehavior(items: [diceView], mode: UIPushBehaviorMode.Instantaneous)
-                var diceTiltBehaviorY = UIPushBehavior(items: [diceView], mode: UIPushBehaviorMode.Instantaneous)
-                diceTiltBehaviorX.magnitude = rotationX / 2
-                diceTiltBehaviorY.magnitude = rotationY / 2
-                diceTiltBehaviorX.angle = CGFloat(M_PI_2)
-                diceTiltBehaviorY.angle = CGFloat(0)
-                diceTiltBehaviorX.active = true
-                diceTiltBehaviorY.active = true
-                diceTiltBehaviorX.addItem(diceView)
-                diceTiltBehaviorY.addItem(diceView)
-                self.animator.addBehavior(diceTiltBehaviorX)
-                self.animator.addBehavior(diceTiltBehaviorY)
-            }
+            self.tiltDiceWithForce(rotationX, yDirection: rotationY)
         }
-        
         motionManager.deviceMotionUpdateInterval = 0.25
         motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler: deviceMotionHandler)
     }
     
+    func tiltDiceWithForce(xDirection : CGFloat, yDirection : CGFloat) {
+        for diceView in self.diceViewInView {
+            var diceTiltBehaviorX = UIPushBehavior(items: [diceView], mode: UIPushBehaviorMode.Instantaneous)
+            var diceTiltBehaviorY = UIPushBehavior(items: [diceView], mode: UIPushBehaviorMode.Instantaneous)
+            diceTiltBehaviorX.magnitude = xDirection / 2
+            diceTiltBehaviorY.magnitude = yDirection / 2
+            diceTiltBehaviorX.angle = CGFloat(M_PI_2)
+            diceTiltBehaviorY.angle = CGFloat(0)
+            diceTiltBehaviorX.active = true
+            diceTiltBehaviorY.active = true
+            diceTiltBehaviorX.addItem(diceView)
+            diceTiltBehaviorY.addItem(diceView)
+            self.animator.addBehavior(diceTiltBehaviorX)
+            self.animator.addBehavior(diceTiltBehaviorY)
+        }
+    }
+
     //MARK: UI Update Animations
     
     let animationBottomViewDuration = NSTimeInterval(0.5)
@@ -189,6 +191,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
     
     private func addNewDiceInView() {
+        playSoundEffect()
         let screenWidth = UIScreen.mainScreen().bounds.width
         let diceViewXposition = Int(arc4random_uniform(UInt32(screenWidth - diceWidth)))
         var diceView = DiceView(frame: CGRectMake(CGFloat(diceViewXposition), 0, diceWidth, diceWidth))
@@ -216,6 +219,16 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     //MARK: Animation
     
     private func animateDicePush() {
+        
+        func getRandomRadians() -> CGFloat {
+            return CGFloat(arc4random_uniform(UInt32(2*M_PI)))
+        }
+        func getRandomOffset() -> UIOffset {
+            let randomHorizontalOffset = CGFloat(arc4random_uniform(UInt32(diceWidth/2) - UInt32(diceWidth/4)))
+            let randomVerticalOffset = CGFloat(arc4random_uniform(UInt32(diceWidth/2) - UInt32(diceWidth/4)))
+            return UIOffsetMake(randomHorizontalOffset, randomVerticalOffset)
+        }
+        
         for diceView in diceViewInView {
             var dicePushBehavior = UIPushBehavior(items:[diceView], mode: UIPushBehaviorMode.Instantaneous)
             dicePushBehavior.magnitude = 7
@@ -225,16 +238,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
             dicePushBehavior.setTargetOffsetFromCenter(getRandomOffset(), forItem: diceView)
             animator.addBehavior(dicePushBehavior)
         }
-    }
-    
-    private func getRandomRadians() -> CGFloat {
-        return CGFloat(arc4random_uniform(UInt32(2*M_PI)))
-    }
-    
-    private func getRandomOffset() -> UIOffset {
-        let randomHorizontalOffset = CGFloat(arc4random_uniform(UInt32(diceWidth/2) - UInt32(diceWidth/4)))
-        let randomVerticalOffset = CGFloat(arc4random_uniform(UInt32(diceWidth/2) - UInt32(diceWidth/4)))
-        return UIOffsetMake(randomHorizontalOffset, randomVerticalOffset)
     }
     
     //MARK: Motion Detection
