@@ -65,7 +65,7 @@ class DiceView : UIImageView {
     //MARK: Animation
     
     func animateRolling() {
-        //expandSizeWithInsetValue(-insetValue)
+        expandSizeWithInsetValue(-insetValue)
         animationImages = delegate!.getDiceAnimateImageForDiceView(self)
         animationRepeatCount = 0
         startAnimating()
@@ -73,12 +73,12 @@ class DiceView : UIImageView {
     
     //MARK: Inset
     
-//    let insetValue = CGFloat(diceWidth * 1 / 6)
-//    
-//    func shrinkSizeWithInsetValue(float : CGFloat) {
-//        self.bounds = CGRectInset(self.bounds, insetValue, insetValue)
-//    }
-//    func expandSizeWithInsetValue(float: CGFloat) {
-//        self.bounds = CGRectInset(self.bounds, -insetValue, -insetValue)
-//    }
+    let insetValue = CGFloat(diceWidth * 1 / 5)
+    
+    func shrinkSizeWithInsetValue(float : CGFloat) {
+        self.bounds = CGRectInset(self.bounds, insetValue, insetValue)
+    }
+    func expandSizeWithInsetValue(float: CGFloat) {
+        self.bounds = CGRectInset(self.bounds, -insetValue, -insetValue)
+    }
 }

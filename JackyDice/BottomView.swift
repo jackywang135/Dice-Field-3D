@@ -33,7 +33,8 @@ class BottomView : UIView {
         super.init(coder: aDecoder)
     }
     
-    let font = UIFont(name: "HelveticaNeue", size: 60)
+    let font = UIFont(name: "HelveticaNeue", size: 40)
+    //let font = UIFont.systemFontOfSize(80)
     let color = UIColor.whiteColor()
     
     func setUpTotalLabel() {
@@ -54,8 +55,10 @@ class BottomView : UIView {
         buttonShake.frame = CGRectMake(bounds.width / 3, 0, bounds.width / 3, bounds.height)
         buttonShake.setTitle("Shake", forState: UIControlState.Normal)
         buttonShake.titleLabel!.adjustsFontSizeToFitWidth = true
-        buttonShake.titleLabel!.textAlignment = NSTextAlignment.Center
         buttonShake.titleLabel!.font = font
+        buttonShake.titleLabel!.textAlignment = NSTextAlignment.Center
+        
+
         buttonShake.addTarget(self, action:"shake:", forControlEvents: UIControlEvents.TouchUpInside)
 
         buttonShake.layer.borderColor = UIColor(white: 1, alpha: 0.5).CGColor
@@ -69,6 +72,7 @@ class BottomView : UIView {
         buttonAddDice = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
         buttonAddDice.frame = CGRectMake(bounds.width * 2 / 3, 0 , bounds.width / 3, bounds.height)
         buttonAddDice.setTitle("+", forState: UIControlState.Normal)
+        buttonAddDice.setTitle("Full", forState: UIControlState.Disabled)
         buttonAddDice.titleLabel!.adjustsFontSizeToFitWidth = true
         buttonAddDice.titleLabel!.font = font
         buttonAddDice.titleLabel!.textAlignment = NSTextAlignment.Center
