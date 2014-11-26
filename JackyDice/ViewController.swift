@@ -139,19 +139,16 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
             
             for diceView in self.diceViewInView {
                 var diceTiltBehaviorX = UIPushBehavior(items: [diceView], mode: UIPushBehaviorMode.Instantaneous)
-                diceTiltBehaviorX.magnitude = rotationX / 2
-                diceTiltBehaviorX.angle = CGFloat(M_PI_2)
-                diceTiltBehaviorX.active = true
-                diceTiltBehaviorX.addItem(diceView)
-                self.animator.addBehavior(diceTiltBehaviorX)
-            }
-            
-            for diceView in self.diceViewInView {
                 var diceTiltBehaviorY = UIPushBehavior(items: [diceView], mode: UIPushBehaviorMode.Instantaneous)
+                diceTiltBehaviorX.magnitude = rotationX / 2
                 diceTiltBehaviorY.magnitude = rotationY / 2
+                diceTiltBehaviorX.angle = CGFloat(M_PI_2)
                 diceTiltBehaviorY.angle = CGFloat(0)
+                diceTiltBehaviorX.active = true
                 diceTiltBehaviorY.active = true
+                diceTiltBehaviorX.addItem(diceView)
                 diceTiltBehaviorY.addItem(diceView)
+                self.animator.addBehavior(diceTiltBehaviorX)
                 self.animator.addBehavior(diceTiltBehaviorY)
             }
         }
