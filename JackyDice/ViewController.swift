@@ -39,7 +39,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     var animator : UIDynamicAnimator!
     var diceBehavior = DiceDynamicBehavior()
     
-    //MARK: Sound Properties
+    //MARK: Audio Properties
     var shakeAndRollSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("ShakeAndRollDice", ofType: "mp3")!)
     var audioPlayer = AVAudioPlayer()
     var audioSession = AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient, error: nil)
@@ -175,11 +175,13 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
 
     func rollAllDice() {
+        self.bottomView.buttonShake.enabled = false
         playSoundEffect()
         animateDicePush()
         CATransaction.begin()
         CATransaction.setCompletionBlock({
             self.updateTotalLabel()
+            self.bottomView.buttonShake.enabled = true
         })
         for diceView in diceViewInView {
             diceView.roll()
