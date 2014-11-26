@@ -16,6 +16,7 @@
 		85879CB41A1F729100DFD0E0 /* DiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879CB31A1F729100DFD0E0 /* DiceView.swift */; };
 		85879CB61A1F72B000DFD0E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879CB51A1F72B000DFD0E0 /* ViewController.swift */; };
 		85879CB81A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879CB71A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift */; };
+		C764A2C31A25CDB2003B5B99 /* DiceImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C764A2C21A25CDB2003B5B99 /* DiceImageHelper.swift */; };
 		C76AA4901A246E200002F1A2 /* ShakeAndRollDice.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C76AA48F1A246E200002F1A2 /* ShakeAndRollDice.mp3 */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 		85879CB31A1F729100DFD0E0 /* DiceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiceView.swift; sourceTree = "<group>"; };
 		85879CB51A1F72B000DFD0E0 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		85879CB71A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiceDynamicBehavior.swift; sourceTree = "<group>"; };
+		C764A2C21A25CDB2003B5B99 /* DiceImageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiceImageHelper.swift; sourceTree = "<group>"; };
 		C76AA48F1A246E200002F1A2 /* ShakeAndRollDice.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ShakeAndRollDice.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,6 +91,7 @@
 				85879CB31A1F729100DFD0E0 /* DiceView.swift */,
 				85879CB51A1F72B000DFD0E0 /* ViewController.swift */,
 				85879CB71A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift */,
+				C764A2C21A25CDB2003B5B99 /* DiceImageHelper.swift */,
 				8546566E1A20709B00CB3DAA /* BottomView.swift */,
 				85879C971A1F727300DFD0E0 /* Main.storyboard */,
 				85879C9A1A1F727300DFD0E0 /* Images.xcassets */,
@@ -229,6 +232,7 @@
 				85879CB41A1F729100DFD0E0 /* DiceView.swift in Sources */,
 				85879CB81A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift in Sources */,
 				85879C941A1F727300DFD0E0 /* AppDelegate.swift in Sources */,
+				C764A2C31A25CDB2003B5B99 /* DiceImageHelper.swift in Sources */,
 				8546566F1A20709B00CB3DAA /* BottomView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

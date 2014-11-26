@@ -34,6 +34,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     //MARK: UI Properties
     var bottomView : BottomView!
     var diceNumberLimitRounded = 10
+    var diceImageHelper = DiceImageHelper()
     
     //MARK: UIDynamicKit Properties
     var animator : UIDynamicAnimator!
@@ -88,8 +89,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     func setUpUI() {
         setUpBackground()
         setUpBottomView()
-        setUpDiceAnimateImage()
-        setUpDiceImage()
         setUpDiceLimit()
         setUpUIDynamics()
     }
@@ -109,27 +108,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         bottomView.delegate = self
         updateTotalLabel()
         view.addSubview(bottomView)
-        
-    }
-    
-    var diceAnimateImage = [UIImage]()
-    
-    func setUpDiceAnimateImage() {
-        var diceImageArray = [UIImage]()
-        for index in 1...13 {
-            diceImageArray.append(UIImage(named: "dice\(index)")!)
-        }
-        diceAnimateImage = diceImageArray
-    }
-    
-    var diceImage = [UIImage]()
-    
-    func setUpDiceImage() {
-        var diceImageArray = [UIImage]()
-        for index in 1...6 {
-            diceImageArray.append(UIImage(named: "\(index)")!)
-        }
-        diceImage = diceImageArray
     }
     
     func setUpDiceLimit() {
@@ -155,7 +133,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     func buttonAddDiceShouldEnable(bool : Bool) {
         UIView.transitionWithView(bottomView.buttonAddDice, duration: animationBottomViewDuration, options:UIViewAnimationOptions.TransitionFlipFromLeft, animations: {self.bottomView.buttonAddDice.enabled = bool}, completion: nil)
     }
-    
     
     //MARK: Dice Functions
     
@@ -187,7 +164,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
 
     func rollAllDice() {
-        
         bottomView.buttonShake.enabled = false
         playSoundEffect()
         animateDicePush()
@@ -262,12 +238,11 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
     
     func getDiceAnimateImageForDiceView(diceView : DiceView) -> [UIImage]{
-        return diceAnimateImage
+        return diceImageHelper.diceAnimateImage
     }
     
     func getDiceImageForDiceView(diceView:DiceView, num : Int) -> UIImage {
-        let image = diceImage[(num - 1)] as UIImage
-        return image
+        return diceImageHelper.getDiceImageForNumber(num)
     }
     
     //MARK: BottomViewDelegate
