@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import CoreMotion
 
 //MARK: Global Variables
 
@@ -39,6 +40,8 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     //MARK: UIDynamicKit Properties
     var animator : UIDynamicAnimator!
     var diceBehavior = DiceDynamicBehavior()
+    var motionManager = CMMotionManager()
+    
     
     //MARK: Audio Properties
     var shakeAndRollSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("ShakeAndRollDice", ofType: "mp3")!)
@@ -91,6 +94,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         setUpBottomView()
         setUpDiceLimit()
         setUpUIDynamics()
+        setUpMotionManager()
     }
     
     private let bottomViewHeight = screenHeight/10
@@ -120,6 +124,35 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         animator = UIDynamicAnimator(referenceView: self.view)
         diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewBorder",fromPoint: bottomView.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - bottomViewHeight))
         animator.addBehavior(diceBehavior)
+    }
+    
+    var accelerometerHandler : CMAccelerometerHandler = {(data:CMAccelerometerData!, error:NSError?) -> () in
+        let x = data.acceleration.x
+        let y = data.acceleration.y
+        let z = data.acceleration.z
+        println("x:\(x)")
+        println("y:\(y)")
+        println("z:\(z)")
+
+    }
+    
+    
+    func tiltNorth() {
+        
+    }
+    
+    
+    private func setUpMotionManager() {
+        
+        var deviceMotionHandler : CMDeviceMotionHandler = {data, error in
+            let rotationX = data.rotationRate.x
+            let rotationY = data.rotationRate.y
+            let rotationZ = data.rotationRate.z
+        }
+        
+        motionManager.deviceMotionUpdateInterval = 0.01
+        motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler: deviceMotionHandler)
+        
     }
     
     //MARK: UI Update Animations
