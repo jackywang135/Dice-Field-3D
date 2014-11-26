@@ -44,7 +44,7 @@ class DiceView : UIImageView {
     func roll() {
             CATransaction.begin()
             CATransaction.setCompletionBlock({
-                //self.shrinkSizeWithInsetValue(-10)
+                self.shrinkSizeWithInsetValue(self.insetValue)
                 self.displayAndSetNumber(self.getRandomDiceNumber())
             })
             animateRolling()
@@ -58,14 +58,14 @@ class DiceView : UIImageView {
     //MARK: Image
     
     func displayAndSetNumber(num:Int) {
-        image = UIImage(named:"\(num)_kn")
+        image = UIImage(named:"\(num)")
         number = num
     }
     
     //MARK: Animation
     
     func animateRolling() {
-        expandSizeWithInsetValue(-insetValue)
+        expandSizeWithInsetValue(insetValue)
         animationImages = delegate!.getDiceAnimateImageForDiceView(self)
         animationRepeatCount = 0
         startAnimating()
