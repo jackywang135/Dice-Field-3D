@@ -30,6 +30,15 @@ func performClosureAfterAnimationFinish(animation:()->(), closure:()->()) {
     CATransaction.commit()
 }
 
+func animateViewPop(view : UIView) {
+    view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.001, 0.001)
+    UIView.animateWithDuration(0.3/1.5, animations: {view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1)}, completion: {(complete : Bool) in
+        UIView.animateWithDuration(0.3/2, animations: {view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.9, 0.9)}, completion: {(complete : Bool) in
+            UIView.animateWithDuration(0.3/2, animations: {view.transform = CGAffineTransformIdentity
+            })
+        })
+    })}
+
 class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
     //MARK: UI Properties
@@ -121,7 +130,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
     
     private func animateBottomView() {
-        UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.TransitionNone, animations: {self.bottomView.frame = CGRectMake(0, screenHeight - self.bottomViewHeight, self.bottomViewWidth, self.bottomViewHeight)}, completion: nil)
+        UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.TransitionNone, animations: {self.bottomView.frame = CGRectMake(0, screenHeight - self.bottomViewHeight, self.bottomViewWidth, self.bottomViewHeight)}, completion: {(complete : Bool) in animateViewPop(self.bottomView.buttonShake)})
     }
     
     private func setUpDiceLimit() {
@@ -169,6 +178,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
     private func updateTotalLabel() {
         UIView.transitionWithView(self.bottomView.labelTotal, duration: animationBottomViewDuration, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: {self.bottomView.labelTotal.text = "\(self.total)" }, completion: nil)
+        //animateViewPop(bottomView.labelTotal)
     }
     
     private func buttonAddDiceShouldEnable(bool : Bool) {
@@ -204,6 +214,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
 
     private func rollAllDice() {
+        //animateViewPop(bottomView.buttonShake)
         bottomView.buttonShake.enabled = false
         playSoundEffect()
         animateDicePush()

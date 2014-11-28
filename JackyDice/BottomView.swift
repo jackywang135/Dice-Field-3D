@@ -58,13 +58,10 @@ class BottomView : UIView {
         buttonShake.titleLabel!.adjustsFontSizeToFitWidth = true
         buttonShake.titleLabel!.font = font
         buttonShake.titleLabel!.textAlignment = NSTextAlignment.Center
-        
         buttonShake.addTarget(self, action:"shake:", forControlEvents: UIControlEvents.TouchUpInside)
-
         buttonShake.layer.borderColor = UIColor(white: 1, alpha: 0.5).CGColor
         buttonShake.layer.borderWidth = screenWidth/300
         buttonShake.layer.cornerRadius = screenWidth/25
-
         addSubview(buttonShake)
     }
     
@@ -82,9 +79,11 @@ class BottomView : UIView {
     
     func shake(sender:UIButton) {
         delegate.pressedButtonShake(self)
+        animateViewPop(buttonShake)
     }
     
     func add(sender:UIButton) {
         delegate.pressedButtonAddDice(self)
+        animateViewPop(buttonAddDice)
     }
 }
