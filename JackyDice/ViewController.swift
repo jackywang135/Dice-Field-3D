@@ -98,6 +98,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     private func setUpUI() {
         setUpBackground()
         setUpBottomView()
+        animateBottomView()
         setUpDiceLimit()
         setUpUIDynamics()
     }
@@ -107,16 +108,20 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
     private func setUpBackground() {
         var backgroundImageView = UIImageView(frame: UIScreen.mainScreen().bounds)
-        backgroundImageView.image = UIImage(named: "greenFelt")
+        backgroundImageView.image = UIImage(named: "pokerTableFelt")
         backgroundImageView.contentMode = .ScaleAspectFill
         view.addSubview(backgroundImageView)
     }
     
     private func setUpBottomView() {
-        bottomView = BottomView(frame: CGRectMake(0, screenHeight - bottomViewHeight, bottomViewWidth, bottomViewHeight))
+        bottomView = BottomView(frame: CGRectMake(0, screenHeight, bottomViewWidth, bottomViewHeight))
         bottomView.delegate = self
         updateTotalLabel()
         view.addSubview(bottomView)
+    }
+    
+    private func animateBottomView() {
+        UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.TransitionNone, animations: {self.bottomView.frame = CGRectMake(0, screenHeight - self.bottomViewHeight, self.bottomViewWidth, self.bottomViewHeight)}, completion: nil)
     }
     
     private func setUpDiceLimit() {
@@ -195,6 +200,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         diceView.displayAndSetNumber(1)
         view.addSubview(diceView)
         diceBehavior.addItem(diceView)
+        delayClosureWithTime(0.5, {self.diceBehavior.gravityBehavior.removeItem(diceView)})
     }
 
     private func rollAllDice() {
