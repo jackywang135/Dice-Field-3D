@@ -23,7 +23,7 @@ func delayClosureWithTime(delay : Double, closure: () -> ()) {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
 }
 
-func performClosureAfterAnimationFinish(animation:()->(), closure:()->()) {
+func afterAnimationCompleteDoClosure(animation:()->(), closure:()->()) {
     CATransaction.begin()
     CATransaction.setCompletionBlock(closure)
     animation()
@@ -151,7 +151,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
 
     private func setUpMotionManager() {
-        
+        calibrateMultiplyConstat()
         var deviceMotionHandler : CMDeviceMotionHandler = {data, error in
             let rotationX = CGFloat(data.rotationRate.x)
             let rotationY = CGFloat(data.rotationRate.y)
@@ -164,11 +164,20 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler: deviceMotionHandler)
     }
     
+    var multiplyConstant = CGFloat(100)
+    
+    func calibrateMultiplyConstat() {
+        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            multiplyConstant = multiplyConstant * 1.5
+ 
+        }
+    }
+    
     func diceMotionHandler(rotationX : CGFloat, rotationY : CGFloat, rotationZ : CGFloat, accelerateX : CGFloat, accelerateY : CGFloat) {
         for diceView in diceViewInView {
-            diceBehavior.dynamicItemBehavior.addLinearVelocity(CGPointMake(rotationY * 100, rotationX * 100), forItem: diceView)
+            diceBehavior.dynamicItemBehavior.addLinearVelocity(CGPointMake(rotationY * multiplyConstant, rotationX * multiplyConstant), forItem: diceView)
             diceBehavior.dynamicItemBehavior.addAngularVelocity(-rotationZ, forItem: diceView)
-            diceBehavior.dynamicItemBehavior.addLinearVelocity(CGPointMake(accelerateX * 100, accelerateY * 100), forItem: diceView)
+            diceBehavior.dynamicItemBehavior.addLinearVelocity(CGPointMake(accelerateX * multiplyConstant, accelerateY * multiplyConstant), forItem: diceView)
         }
     }
 
@@ -177,26 +186,21 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     let animationBottomViewDuration = NSTimeInterval(0.5)
     
     private func updateTotalLabel() {
-        UIView.transitionWithView(self.bottomView.labelTotal, duration: animationBottomViewDuration, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: {self.bottomView.labelTotal.text = "\(self.total)" }, completion: nil)
-        //animateViewPop(bottomView.labelTotal)
+        bottomView.labelTotal.text = "\(self.total)"
+        animateViewPop(self.bottomView.labelTotal)
     }
     
     private func buttonAddDiceShouldEnable(bool : Bool) {
-        UIView.transitionWithView(bottomView.buttonAddDice, duration: animationBottomViewDuration, options:UIViewAnimationOptions.TransitionFlipFromLeft, animations: {self.bottomView.buttonAddDice.enabled = bool}, completion: nil)
+        self.bottomView.buttonAddDice.enabled = bool
+        animateViewPop(bottomView.buttonAddDice)
     }
     
     //MARK: Dice Functions
     
     private func addNewDice() {
-        func diceLimitReached() -> Bool {
-            if diceViewInView.count >= diceNumberLimitRounded {
-                return true
-            }
-            return false
-        }
         addNewDiceInView()
         updateTotalLabel()
-        if diceLimitReached() {
+        if diceViewInView.count >= diceNumberLimitRounded  {
             buttonAddDiceShouldEnable(false)
         }
     }
@@ -214,13 +218,12 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
 
     private func rollAllDice() {
-        //animateViewPop(bottomView.buttonShake)
         bottomView.buttonShake.enabled = false
         playSoundEffect()
         animateDicePush()
         CATransaction.begin()
         CATransaction.setCompletionBlock({
-            self.updateTotalLabel()
+            delayClosureWithTime(0.25) {self.updateTotalLabel()}
             self.bottomView.buttonShake.enabled = true
         })
         for diceView in diceViewInView {
@@ -234,7 +237,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     private func animateDicePush() {
         
         func getRandomRadians() -> CGFloat {
-            return CGFloat(arc4random_uniform(UInt32(2*M_PI)))
+            return CGFloat(arc4random_uniform(UInt32(2 * M_PI)))
         }
         func getRandomOffset() -> UIOffset {
             let randomHorizontalOffset = CGFloat(arc4random_uniform(UInt32(diceWidth/2) - UInt32(diceWidth/4)))
@@ -252,6 +255,31 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
             animator.addBehavior(dicePushBehavior)
             delayClosureWithTime(1){ self.animator.removeBehavior(dicePushBehavior)}
         }
+    }
+    
+    func animateDiceShrink(diceView : UIView, duration: Double){
+        UIView.animateWithDuration(duration, animations: {
+            var shrinkFrame = CGRectMake(diceView.center.x, diceView.center.y, 0, 0)
+            diceView.frame = shrinkFrame
+            }, completion: nil)
+    }
+    
+    func animateDiceSpin(diceView : UIView, duration: Double) {
+        var spinAnimation = CABasicAnimation()
+        spinAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+        spinAnimation.toValue = 2 * M_PI
+        spinAnimation.duration = duration
+        spinAnimation.cumulative = true
+        spinAnimation.repeatCount = 1
+        diceView.layer.addAnimation(spinAnimation, forKey: "spinAnimation")
+    }
+    
+    func animateDiceOpacity(diceView : UIView, duration : Double) {
+        var opacityAnimation = CABasicAnimation()
+        opacityAnimation = CABasicAnimation(keyPath: "opacity")
+        opacityAnimation.toValue = 0
+        opacityAnimation.duration = duration
+        diceView.layer.addAnimation(opacityAnimation, forKey: "opacityAnimation")
     }
     
     //MARK: Motion Detection
@@ -272,21 +300,19 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     //MARK: DiceViewDelegate
     
     func tapOnDiceView(diceView: DiceView) {
-        func onlyOneDiceLeft() -> Bool {
-            if diceViewInView.count == 1 {
-                return true
-            }
-            return false
-        }
-        if onlyOneDiceLeft() {
+        if diceViewInView.count == 1 {
+            self.animateDiceSpin(diceView, duration: 0.25)
             return
         }
-        if bottomView.buttonAddDice.enabled == false {
-            buttonAddDiceShouldEnable(true)
+        afterAnimationCompleteDoClosure({
+            self.animateDiceSpin(diceView, duration: 0.25)}) {
+                if self.bottomView.buttonAddDice.enabled == false {
+                    self.buttonAddDiceShouldEnable(true)
+                }
+                self.diceBehavior.removeItem(diceView)
+                diceView.removeFromSuperview()
+                self.updateTotalLabel()
         }
-        diceBehavior.removeItem(diceView)
-        diceView.removeFromSuperview()
-        updateTotalLabel()
     }
     
     func getDiceAnimateImageForDiceView(diceView : DiceView) -> [UIImage]{
