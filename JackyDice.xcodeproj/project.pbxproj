@@ -89,7 +89,6 @@
 			children = (
 				85879C931A1F727300DFD0E0 /* AppDelegate.swift */,
 				85879CB51A1F72B000DFD0E0 /* ViewController.swift */,
-				85879CB31A1F729100DFD0E0 /* DiceView.swift */,
 				8546566E1A20709B00CB3DAA /* BottomView.swift */,
 				85879CB71A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift */,
 				C764A2C21A25CDB2003B5B99 /* DiceImageHelper.swift */,
@@ -104,6 +103,7 @@
 		85879C911A1F727300DFD0E0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				85879CB31A1F729100DFD0E0 /* DiceView.swift */,
 				C76AA48F1A246E200002F1A2 /* ShakeAndRollDice.mp3 */,
 				85879C921A1F727300DFD0E0 /* Info.plist */,
 			);

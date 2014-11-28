@@ -99,6 +99,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         setUpBottomView()
         setUpDiceLimit()
         setUpUIDynamics()
+        //setUpPushBehavior()
         setUpMotionManager()
     }
     
@@ -120,7 +121,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
     
     private func setUpDiceLimit() {
-        let spaceEachDiceNeeds = 5
+        let spaceEachDiceNeeds = 7
         let diceNumberLimit = Int((screenWidth * screenHeight) / (diceWidth * diceWidth)) / spaceEachDiceNeeds
         diceNumberLimitRounded = diceNumberLimit / 5 * 5
     }
@@ -143,20 +144,11 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
     
     func tiltDiceWithForce(xDirection : CGFloat, yDirection : CGFloat) {
-        for diceView in self.diceViewInView {
-            var diceTiltBehaviorX = UIPushBehavior(items: [diceView], mode: UIPushBehaviorMode.Instantaneous)
-            var diceTiltBehaviorY = UIPushBehavior(items: [diceView], mode: UIPushBehaviorMode.Instantaneous)
-            diceTiltBehaviorX.magnitude = xDirection / 2
-            diceTiltBehaviorY.magnitude = yDirection / 2
-            diceTiltBehaviorX.angle = CGFloat(M_PI_2)
-            diceTiltBehaviorY.angle = CGFloat(0)
-            diceTiltBehaviorX.active = true
-            diceTiltBehaviorY.active = true
-            diceTiltBehaviorX.addItem(diceView)
-            diceTiltBehaviorY.addItem(diceView)
-            self.animator.addBehavior(diceTiltBehaviorX)
-            self.animator.addBehavior(diceTiltBehaviorY)
+        for item in diceViewInView {
+            diceBehavior.dynamicItemBehavior.addLinearVelocity(CGPointMake(yDirection * 100, xDirection * 100), forItem: item)
         }
+        NSLog("\(self.animator.behaviors.count)")
+        
     }
 
     //MARK: UI Update Animations
@@ -199,6 +191,8 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         diceView.displayAndSetNumber(1)
         view.addSubview(diceView)
         diceBehavior.addItem(diceView)
+//        diceTiltBehaviorX!.addItem(diceView)
+//        diceTiltBehaviorY!.addItem(diceView)
     }
 
     private func rollAllDice() {
