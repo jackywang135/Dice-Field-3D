@@ -81,7 +81,8 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         super.viewDidLoad()
         diceImageHelper = DiceImageHelper()
         setUpUI()
-        addNewDice()
+        setUpMotionManager()
+        delayClosureWithTime(2) {self.addNewDice()}
     }
 
     override func didReceiveMemoryWarning() {
@@ -99,8 +100,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         setUpBottomView()
         setUpDiceLimit()
         setUpUIDynamics()
-        //setUpPushBehavior()
-        setUpMotionManager()
     }
     
     private let bottomViewHeight = screenHeight/10
@@ -129,26 +128,31 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     private func setUpUIDynamics() {
         animator = UIDynamicAnimator(referenceView: self.view)
         diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewBorder",fromPoint: bottomView.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - bottomViewHeight))
+        diceBehavior.collisionBehavior.translatesReferenceBoundsIntoBoundary = true
         animator.addBehavior(diceBehavior)
     }
 
     private func setUpMotionManager() {
         
         var deviceMotionHandler : CMDeviceMotionHandler = {data, error in
+            NSLog("\(self.animator.behaviors.count)")
             let rotationX = CGFloat(data.rotationRate.x)
             let rotationY = CGFloat(data.rotationRate.y)
-            self.tiltDiceWithForce(rotationX, yDirection: rotationY)
+            let rotationZ = CGFloat(data.rotationRate.z)
+            let accelerateX = CGFloat(data.userAcceleration.x)
+            let accelerateY = CGFloat(data.userAcceleration.y)
+            self.diceMotionHandler(rotationX, rotationY: rotationY, rotationZ: rotationZ, accelerateX: accelerateX, accelerateY: accelerateY)
         }
-        motionManager.deviceMotionUpdateInterval = 0.25
+        motionManager.deviceMotionUpdateInterval = 0.1
         motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler: deviceMotionHandler)
     }
     
-    func tiltDiceWithForce(xDirection : CGFloat, yDirection : CGFloat) {
-        for item in diceViewInView {
-            diceBehavior.dynamicItemBehavior.addLinearVelocity(CGPointMake(yDirection * 100, xDirection * 100), forItem: item)
+    func diceMotionHandler(rotationX : CGFloat, rotationY : CGFloat, rotationZ : CGFloat, accelerateX : CGFloat, accelerateY : CGFloat) {
+        for diceView in diceViewInView {
+            diceBehavior.dynamicItemBehavior.addLinearVelocity(CGPointMake(rotationY * 100, rotationX * 100), forItem: diceView)
+            diceBehavior.dynamicItemBehavior.addAngularVelocity(-rotationZ, forItem: diceView)
+            diceBehavior.dynamicItemBehavior.addLinearVelocity(CGPointMake(accelerateX * 1000, accelerateY * 1000), forItem: diceView)
         }
-        NSLog("\(self.animator.behaviors.count)")
-        
     }
 
     //MARK: UI Update Animations
@@ -191,8 +195,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         diceView.displayAndSetNumber(1)
         view.addSubview(diceView)
         diceBehavior.addItem(diceView)
-//        diceTiltBehaviorX!.addItem(diceView)
-//        diceTiltBehaviorY!.addItem(diceView)
     }
 
     private func rollAllDice() {
@@ -231,6 +233,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
             dicePushBehavior.addItem(diceView)
             dicePushBehavior.setTargetOffsetFromCenter(getRandomOffset(), forItem: diceView)
             animator.addBehavior(dicePushBehavior)
+            delayClosureWithTime(1){ self.animator.removeBehavior(dicePushBehavior)}
         }
     }
     

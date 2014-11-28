@@ -14,21 +14,15 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     var collisionBehavior = UICollisionBehavior()
     var dynamicItemBehavior = UIDynamicItemBehavior()
     var gravityBehavior = UIGravityBehavior()
-    
-//    var deviceTiltPushBehaviorX = UIPushBehavior()
-//    var deviceTiltPushBehaviorY = UIPushBehavior()
-    
+
     override init() {
         super.init()
         setUpCollisionBehavior()
         setUpDynamicItemBehavior()
         setUpGravityBehavior()
-        setUpDeviceTiltGravityBehavior()
         addChildBehavior(collisionBehavior)
         addChildBehavior(dynamicItemBehavior)
         addChildBehavior(gravityBehavior)
-//        addChildBehavior(deviceTiltGravityBehaviorX)
-//        addChildBehavior(deviceTiltGravityBehaviorY)
     }
     
     private func setUpCollisionBehavior() {
@@ -46,28 +40,16 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
         gravityBehavior.magnitude = 15
     }
     
-    private func setUpDeviceTiltGravityBehavior() {
-//        deviceTiltGravityBehaviorX.angle = CGFloat(M_PI_2)
-//        deviceTiltGravityBehaviorY.angle = CGFloat(0)
-        //deviceTiltGravityBehaviorX.magnitude = 0
-        //deviceTiltGravityBehaviorY.magnitude = 0
-        
-    }
-    
     func addItem(item : UIDynamicItem) {
         collisionBehavior.addItem(item)
         gravityBehavior.addItem(item)
         dynamicItemBehavior.addItem(item)
-//        deviceTiltGravityBehaviorX.addItem(item)
-//        deviceTiltGravityBehaviorY.addItem(item)
     }
     
     func removeItem(item : UIDynamicItem) {
         collisionBehavior.removeItem(item)
         gravityBehavior.removeItem(item)
         dynamicItemBehavior.removeItem(item)
-//        deviceTiltGravityBehaviorX.removeItem(item)
-//        deviceTiltGravityBehaviorY.removeItem(item)
     }
     
     //MARK: Collision Delegate methods
