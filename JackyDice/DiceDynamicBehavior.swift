@@ -31,11 +31,9 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     }
     
     private func setUpDynamicItemBehavior() {
-        dynamicItemBehavior.elasticity = 0.5
+        dynamicItemBehavior.elasticity = 0.65
         dynamicItemBehavior.resistance = 1
         dynamicItemBehavior.angularResistance = 1
-        dynamicItemBehavior.friction = 1
-        dynamicItemBehavior.density = 1
     }
     
     private func setUpGravityBehavior() {

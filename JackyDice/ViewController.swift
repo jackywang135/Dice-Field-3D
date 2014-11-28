@@ -139,7 +139,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     private func setUpMotionManager() {
         
         var deviceMotionHandler : CMDeviceMotionHandler = {data, error in
-            NSLog("\(self.animator.behaviors.count)")
             let rotationX = CGFloat(data.rotationRate.x)
             let rotationY = CGFloat(data.rotationRate.y)
             let rotationZ = CGFloat(data.rotationRate.z)
@@ -199,7 +198,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
 
     private func rollAllDice() {
-        //setUpCollisionBoundaries()
         bottomView.buttonShake.enabled = false
         playSoundEffect()
         animateDicePush()
