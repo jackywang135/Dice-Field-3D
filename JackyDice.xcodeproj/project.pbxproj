@@ -88,13 +88,9 @@
 			isa = PBXGroup;
 			children = (
 				85879C931A1F727300DFD0E0 /* AppDelegate.swift */,
-				85879CB51A1F72B000DFD0E0 /* ViewController.swift */,
-				8546566E1A20709B00CB3DAA /* BottomView.swift */,
-				85879CB71A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift */,
-				C764A2C21A25CDB2003B5B99 /* DiceImageHelper.swift */,
-				85879C971A1F727300DFD0E0 /* Main.storyboard */,
-				85879C9A1A1F727300DFD0E0 /* Images.xcassets */,
-				85879C9C1A1F727300DFD0E0 /* LaunchScreen.xib */,
+				C7C5FC7A1A28643D0006D0EA /* Controller */,
+				C7C5FC7B1A28645B0006D0EA /* View */,
+				C7C5FC7C1A2864620006D0EA /* Model */,
 				85879C911A1F727300DFD0E0 /* Supporting Files */,
 			);
 			path = JackyDice;
@@ -103,7 +99,6 @@
 		85879C911A1F727300DFD0E0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				85879CB31A1F729100DFD0E0 /* DiceView.swift */,
 				C76AA48F1A246E200002F1A2 /* ShakeAndRollDice.mp3 */,
 				85879C921A1F727300DFD0E0 /* Info.plist */,
 			);
@@ -125,6 +120,35 @@
 				85879CA81A1F727400DFD0E0 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C7C5FC7A1A28643D0006D0EA /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				85879CB51A1F72B000DFD0E0 /* ViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		C7C5FC7B1A28645B0006D0EA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8546566E1A20709B00CB3DAA /* BottomView.swift */,
+				85879CB31A1F729100DFD0E0 /* DiceView.swift */,
+				85879C971A1F727300DFD0E0 /* Main.storyboard */,
+				85879C9C1A1F727300DFD0E0 /* LaunchScreen.xib */,
+				85879C9A1A1F727300DFD0E0 /* Images.xcassets */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		C7C5FC7C1A2864620006D0EA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				85879CB71A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift */,
+				C764A2C21A25CDB2003B5B99 /* DiceImageHelper.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

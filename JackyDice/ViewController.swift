@@ -82,7 +82,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         diceImageHelper = DiceImageHelper()
         setUpUI()
         setUpMotionManager()
-        delayClosureWithTime(2) {self.addNewDice()}
+        delayClosureWithTime(1) {self.addNewDice()}
     }
 
     override func didReceiveMemoryWarning() {
@@ -127,9 +127,13 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
     private func setUpUIDynamics() {
         animator = UIDynamicAnimator(referenceView: self.view)
+        setUpCollisionBoundaries()
+        animator.addBehavior(diceBehavior)
+    }
+    
+    private func setUpCollisionBoundaries() {
         diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewBorder",fromPoint: bottomView.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - bottomViewHeight))
         diceBehavior.collisionBehavior.translatesReferenceBoundsIntoBoundary = true
-        animator.addBehavior(diceBehavior)
     }
 
     private func setUpMotionManager() {
@@ -151,7 +155,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         for diceView in diceViewInView {
             diceBehavior.dynamicItemBehavior.addLinearVelocity(CGPointMake(rotationY * 100, rotationX * 100), forItem: diceView)
             diceBehavior.dynamicItemBehavior.addAngularVelocity(-rotationZ, forItem: diceView)
-            diceBehavior.dynamicItemBehavior.addLinearVelocity(CGPointMake(accelerateX * 1000, accelerateY * 1000), forItem: diceView)
+            diceBehavior.dynamicItemBehavior.addLinearVelocity(CGPointMake(accelerateX * 500, accelerateY * 500), forItem: diceView)
         }
     }
 
@@ -176,9 +180,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
             }
             return false
         }
-        if diceLimitReached() {
-            return
-        }
         addNewDiceInView()
         updateTotalLabel()
         if diceLimitReached() {
@@ -198,6 +199,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
 
     private func rollAllDice() {
+        setUpCollisionBoundaries()
         bottomView.buttonShake.enabled = false
         playSoundEffect()
         animateDicePush()
@@ -227,7 +229,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         
         for diceView in diceViewInView {
             var dicePushBehavior = UIPushBehavior(items:[diceView], mode: UIPushBehaviorMode.Instantaneous)
-            dicePushBehavior.magnitude = 7
+            dicePushBehavior.magnitude = 5
             dicePushBehavior.angle = getRandomRadians()
             dicePushBehavior.active = true
             dicePushBehavior.addItem(diceView)
