@@ -9,13 +9,26 @@
 import UIKit
 import AVFoundation
 import CoreMotion
+import iAd
 
 //MARK: Global Variables
+
+let diceWidth = CGFloat(60)
 
 let screenWidth = UIScreen.mainScreen().bounds.width
 let screenHeight = UIScreen.mainScreen().bounds.height
 
-let diceWidth = CGFloat(60)
+let bottomViewHeight = screenHeight/10
+let bottomViewWidth = screenWidth
+
+let bottomViewHiddenFrame = CGRectMake(0, screenHeight, bottomViewWidth, bottomViewHeight)
+let bottomViewNormalFrame = CGRectMake(0, screenHeight - bottomViewHeight,bottomViewWidth, bottomViewHeight)
+let bottomViewDuringAdFrame = CGRectMake(0, adShowingFrame.origin.y - bottomViewHeight, bottomViewWidth, bottomViewHeight)
+
+let adHeight = CGFloat(50)
+let adHiddenFrame = CGRectMake(0, screenHeight, screenWidth, adHeight)
+let adShowingFrame = CGRectMake(0, screenHeight - adHeight, screenWidth, adHeight)
+
 
 //MARK: Global Functions
 
@@ -39,10 +52,11 @@ func animateViewPop(view : UIView) {
         })
     })}
 
-class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
+class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, ADBannerViewDelegate {
     
     //MARK: UI Properties
     var bottomView : BottomView!
+    var adBannerView : ADBannerView!
     var diceNumberLimitRounded = 10
     var diceImageHelper : DiceImageHelper?
     
@@ -50,7 +64,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     var animator : UIDynamicAnimator!
     var diceBehavior = DiceDynamicBehavior()
     var motionManager = CMMotionManager()
-    
     
     //MARK: Audio Properties
     var shakeAndRollSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("ShakeAndRollDice", ofType: "mp3")!)
@@ -110,10 +123,8 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         animateBottomView()
         setUpDiceLimit()
         setUpUIDynamics()
+        setUpAdBannerView()
     }
-    
-    private let bottomViewHeight = screenHeight/10
-    private let bottomViewWidth = screenWidth
     
     private func setUpBackground() {
         var backgroundImageView = UIImageView(frame: UIScreen.mainScreen().bounds)
@@ -123,14 +134,14 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     }
     
     private func setUpBottomView() {
-        bottomView = BottomView(frame: CGRectMake(0, screenHeight, bottomViewWidth, bottomViewHeight))
+        bottomView = BottomView(frame: bottomViewHiddenFrame)
         bottomView.delegate = self
         updateTotalLabel()
         view.addSubview(bottomView)
     }
     
     private func animateBottomView() {
-        UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.TransitionNone, animations: {self.bottomView.frame = CGRectMake(0, screenHeight - self.bottomViewHeight, self.bottomViewWidth, self.bottomViewHeight)}, completion: {(complete : Bool) in animateViewPop(self.bottomView.buttonShake)})
+        UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.TransitionNone, animations: {self.bottomView.frame = bottomViewNormalFrame}, completion: {(complete : Bool) in animateViewPop(self.bottomView.buttonShake)})
     }
     
     private func setUpDiceLimit() {
@@ -147,7 +158,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
     private func setUpCollisionBoundaries() {
         diceBehavior.collisionBehavior.translatesReferenceBoundsIntoBoundary = true
-        diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewBorder",fromPoint: bottomView.frame.origin, toPoint: CGPointMake(screenWidth, screenHeight - bottomViewHeight))
+        diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewBorder",fromPoint: bottomViewNormalFrame.origin, toPoint: CGPointMake(bottomViewNormalFrame.origin.x + screenWidth, bottomViewNormalFrame.origin.y))
     }
 
     private func setUpMotionManager() {
@@ -169,7 +180,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     func calibrateMultiplyConstat() {
         if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
             multiplyConstant = multiplyConstant * 1.5
- 
         }
     }
     
@@ -180,7 +190,13 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
             diceBehavior.dynamicItemBehavior.addLinearVelocity(CGPointMake(accelerateX * multiplyConstant, accelerateY * multiplyConstant), forItem: diceView)
         }
     }
-
+    
+    func setUpAdBannerView() {
+        adBannerView = ADBannerView(frame:adHiddenFrame)
+        adBannerView.delegate = self
+        view.addSubview(adBannerView)
+    }
+    
     //MARK: UI Update Animations
     
     let animationBottomViewDuration = NSTimeInterval(0.5)
@@ -207,7 +223,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     
     private func addNewDiceInView() {
         playSoundEffect()
-        let screenWidth = UIScreen.mainScreen().bounds.width
         let diceViewXposition = Int(arc4random_uniform(UInt32(screenWidth - diceWidth)))
         var diceView = DiceView(frame: CGRectMake(CGFloat(diceViewXposition), 0, diceWidth, diceWidth))
         diceView.delegate = self
@@ -297,6 +312,50 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
         audioPlayer.play()
     }
     
+    //MARK: iAd Delegate
+    
+    let adAnimationDuration = 0.5
+    
+    func bannerViewDidLoadAd(banner: ADBannerView!) {
+        showAd()
+    }
+    
+    func bannerViewActionShouldBegin(banner: ADBannerView!, willLeaveApplication willLeave: Bool) -> Bool {
+        return true
+    }
+    
+    func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
+        hideAd()
+    }
+    
+    private func showAd() {
+        var testDice = DiceView(frame: CGRectMake(screenWidth/2, screenHeight - bottomViewHeight - diceWidth, diceWidth, diceWidth))
+        testDice.image = UIImage(named: "1")!
+        testDice.delegate = self
+        view.addSubview(testDice)
+        diceBehavior.addItem(testDice)
+        delayClosureWithTime(0.5, {self.diceBehavior.gravityBehavior.removeItem(testDice)})
+        
+        diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewShowAdBoundary", fromPoint: bottomViewDuringAdFrame.origin, toPoint: CGPointMake(bottomViewDuringAdFrame.origin.x + screenWidth, bottomViewDuringAdFrame.origin.y))
+        
+        
+        
+        UIView.animateWithDuration(adAnimationDuration,
+            animations: {
+                self.bottomView.frame = bottomViewDuringAdFrame
+                self.adBannerView.frame = adShowingFrame
+        })
+    }
+    
+    private func hideAd() {
+        diceBehavior.collisionBehavior.removeBoundaryWithIdentifier("bottomViewShowAdBoundary")
+        UIView.animateWithDuration(adAnimationDuration,
+            animations: {
+                self.bottomView.frame = bottomViewNormalFrame
+                self.adBannerView.frame = adHiddenFrame
+        })
+    }
+ 
     //MARK: DiceViewDelegate
     
     func tapOnDiceView(diceView: DiceView) {
