@@ -330,15 +330,15 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
     
     private func showAd() {
         var testDice = DiceView(frame: CGRectMake(screenWidth/2, screenHeight - bottomViewHeight - diceWidth, diceWidth, diceWidth))
-        testDice.image = UIImage(named: "1")!
         testDice.delegate = self
+        testDice.displayAndSetNumber(1)
         view.addSubview(testDice)
         diceBehavior.addItem(testDice)
         delayClosureWithTime(0.5, {self.diceBehavior.gravityBehavior.removeItem(testDice)})
         
-        diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewShowAdBoundary", fromPoint: bottomViewDuringAdFrame.origin, toPoint: CGPointMake(bottomViewDuringAdFrame.origin.x + screenWidth, bottomViewDuringAdFrame.origin.y))
-        
-        
+        moveDiceUpWhenAdShows(){
+        self.diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewShowAdBoundary", fromPoint: bottomViewDuringAdFrame.origin, toPoint: CGPointMake(bottomViewDuringAdFrame.origin.x + screenWidth, bottomViewDuringAdFrame.origin.y))
+        }
         
         UIView.animateWithDuration(adAnimationDuration,
             animations: {
@@ -346,6 +346,18 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
                 self.adBannerView.frame = adShowingFrame
         })
     }
+    
+    private func moveDiceUpWhenAdShows(closure : ()->()) {
+        diceBehavior.collisionBehavior.removeBoundaryWithIdentifier("bottomViewShowAdBoundary")
+        UIView.animateWithDuration(adAnimationDuration, animations: {
+            for diceView in self.diceViewInView {
+                if diceView.frame.origin.y >= (screenHeight - bottomViewHeight - diceWidth) {
+                    diceView.frame.origin.y = diceView.frame.origin.y - adHeight
+                }
+            }
+            }, completion: {(completion : Bool) in closure()})
+    }
+ 
     
     private func hideAd() {
         diceBehavior.collisionBehavior.removeBoundaryWithIdentifier("bottomViewShowAdBoundary")
