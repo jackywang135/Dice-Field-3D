@@ -99,8 +99,14 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
         super.loadView()
         diceImageHelper = DiceImageHelper()
     }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
         diceImageHelper = DiceImageHelper()
         setUpUI()
         setUpMotionManager()
@@ -120,10 +126,10 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
     private func setUpUI() {
         setUpBackground()
         setUpBottomView()
-        animateBottomView()
+        //animateBottomView()
         setUpDiceLimit()
         setUpUIDynamics()
-        setUpAdBannerView()
+        //setUpAdBannerView()
     }
     
     private func setUpBackground() {
