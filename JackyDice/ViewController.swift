@@ -261,23 +261,27 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
         }
         
         for diceView in diceViewInView {
-            var dicePushBehavior = UIPushBehavior(items:[diceView], mode: UIPushBehaviorMode.Instantaneous)
-            dicePushBehavior.magnitude = 5
-            dicePushBehavior.angle = getRandomRadians()
-            dicePushBehavior.active = true
-            dicePushBehavior.addItem(diceView)
-            dicePushBehavior.setTargetOffsetFromCenter(getRandomOffset(), forItem: diceView)
-            animator.addBehavior(dicePushBehavior)
-            delayClosureWithTime(1){ self.animator.removeBehavior(dicePushBehavior)}
+            pushView(diceView, angle: getRandomRadians(), offset: getRandomOffset(), magnitude: 5)
         }
     }
     
-    func animateDiceShrink(diceView : UIView, duration: Double){
-        UIView.animateWithDuration(duration, animations: {
-            var shrinkFrame = CGRectMake(diceView.center.x, diceView.center.y, 0, 0)
-            diceView.frame = shrinkFrame
-            }, completion: nil)
+    func pushView(view: UIView, angle: CGFloat, offset:UIOffset, magnitude: CGFloat) {
+        var dicePushBehavior = UIPushBehavior(items:[view], mode: UIPushBehaviorMode.Instantaneous)
+        dicePushBehavior.magnitude = magnitude
+        dicePushBehavior.angle = angle
+        dicePushBehavior.active = true
+        dicePushBehavior.addItem(view)
+        dicePushBehavior.setTargetOffsetFromCenter(offset, forItem: view)
+        animator.addBehavior(dicePushBehavior)
+        delayClosureWithTime(1){ self.animator.removeBehavior(dicePushBehavior)}
     }
+    
+//    func animateDiceShrink(diceView : UIView, duration: Double){
+//        UIView.animateWithDuration(duration, animations: {
+//            var shrinkFrame = CGRectMake(diceView.center.x, diceView.center.y, 0, 0)
+//            diceView.frame = shrinkFrame
+//            }, completion: nil)
+//    }
     
     func animateDiceSpin(diceView : UIView, duration: Double) {
         var spinAnimation = CABasicAnimation()
@@ -289,13 +293,13 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
         diceView.layer.addAnimation(spinAnimation, forKey: "spinAnimation")
     }
     
-    func animateDiceOpacity(diceView : UIView, duration : Double) {
-        var opacityAnimation = CABasicAnimation()
-        opacityAnimation = CABasicAnimation(keyPath: "opacity")
-        opacityAnimation.toValue = 0
-        opacityAnimation.duration = duration
-        diceView.layer.addAnimation(opacityAnimation, forKey: "opacityAnimation")
-    }
+//    func animateDiceOpacity(diceView : UIView, duration : Double) {
+//        var opacityAnimation = CABasicAnimation()
+//        opacityAnimation = CABasicAnimation(keyPath: "opacity")
+//        opacityAnimation.toValue = 0
+//        opacityAnimation.duration = duration
+//        diceView.layer.addAnimation(opacityAnimation, forKey: "opacityAnimation")
+//    }
     
     //MARK: Motion Detection
     
@@ -328,38 +332,27 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
         hideAd()
     }
     
-    private func showAd() {
-        var testDice = DiceView(frame: CGRectMake(screenWidth/2, screenHeight - bottomViewHeight - diceWidth, diceWidth, diceWidth))
-        testDice.delegate = self
-        testDice.displayAndSetNumber(1)
-        view.addSubview(testDice)
-        diceBehavior.addItem(testDice)
-        self.diceBehavior.gravityBehavior.removeItem(testDice)
-        
-        moveDiceUpWhenAdShows(){
-        self.diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewShowAdBoundary", fromPoint: bottomViewDuringAdFrame.origin, toPoint: CGPointMake(bottomViewDuringAdFrame.origin.x + screenWidth, bottomViewDuringAdFrame.origin.y))
-        }
-        
-        UIView.animateWithDuration(adAnimationDuration,
-            animations: {
-                self.bottomView.frame = bottomViewDuringAdFrame
-                self.adBannerView.frame = adShowingFrame
-        })
-    }
-    
-    private func moveDiceUpWhenAdShows(closure : ()->()) {
+    func showAd() {
         diceBehavior.collisionBehavior.removeBoundaryWithIdentifier("bottomViewShowAdBoundary")
-        UIView.animateWithDuration(adAnimationDuration, animations: {
-            for diceView in self.diceViewInView {
-                if diceView.frame.origin.y >= (bottomViewDuringAdFrame.origin.y - diceWidth) {
-                    diceView.frame.origin.y = diceView.frame.origin.y - adHeight
-                }
+        
+        for diceView in diceViewInView {
+            if diceView.frame.origin.y >= (bottomViewDuringAdFrame.origin.y - diceWidth) {
+                pushView(diceView, angle: CGFloat(3 * M_PI_2), offset: UIOffsetZero, magnitude: 5)
             }
-            }, completion: {(completion : Bool) in closure()})
+        }
+
+        delayClosureWithTime(0.5) {
+            self.diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewShowAdBoundary", fromPoint: bottomViewDuringAdFrame.origin, toPoint: CGPointMake(bottomViewDuringAdFrame.origin.x + screenWidth,bottomViewDuringAdFrame.origin.y))
+            UIView.animateWithDuration(self.adAnimationDuration,
+                animations: {
+                    self.bottomView.frame = bottomViewDuringAdFrame
+                    self.adBannerView.frame = adShowingFrame
+            })
+            
+        }
     }
- 
     
-    private func hideAd() {
+    func hideAd() {
         diceBehavior.collisionBehavior.removeBoundaryWithIdentifier("bottomViewShowAdBoundary")
         UIView.animateWithDuration(adAnimationDuration,
             animations: {
@@ -402,5 +395,34 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
     
     func pressedButtonShake(bottomView: BottomView) {
         rollAllDice()
+    }
+    
+    //MARK: Testing Functions
+    
+    func testingAddFullDice() {
+        while diceViewInView.count < diceNumberLimitRounded {
+            self.addNewDice()
+        }
+    }
+    
+    func testingButtonsForiAd() {
+        var buttonShowAd = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        buttonShowAd.setTitle("S", forState: UIControlState.Normal)
+        buttonShowAd.frame = CGRectMake(screenWidth - diceWidth, 0, diceWidth, diceWidth)
+        buttonShowAd.addTarget(self, action: "showAd", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        var buttonHideAd = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        buttonHideAd.setTitle("H", forState: UIControlState.Normal)
+        buttonHideAd.frame = CGRectMake(screenWidth - diceWidth * 2, 0, diceWidth, diceWidth)
+        buttonHideAd.addTarget(self, action: "hideAd", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        view.addSubview(buttonShowAd)
+        view.addSubview(buttonHideAd)
+        view.bringSubviewToFront(buttonShowAd)
+        view.bringSubviewToFront(buttonHideAd)
+        buttonHideAd.backgroundColor = UIColor.blackColor()
+        buttonShowAd.backgroundColor = UIColor.blackColor()
+        buttonHideAd.titleLabel!.textColor = UIColor.whiteColor()
+        buttonShowAd.titleLabel!.textColor = UIColor.whiteColor()
     }
 }
