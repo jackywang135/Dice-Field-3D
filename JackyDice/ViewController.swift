@@ -50,7 +50,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
     var diceViewInView : [DiceView] {
         get {
             var array = [DiceView]()
-            for view in self.view.subviews {
+            for view in animatorView.subviews {
                 if view is DiceView {
                     array.append(view as DiceView)
                 }
@@ -101,11 +101,13 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
 
     private func setUpUI() {
         setUpBackground()
+        setUpAnimatorView()
         setUpBottomView()
-        //animateBottomView()
+        setUpAdBannerView()
+        animateBottomView()
         setUpDiceLimit()
         setUpUIDynamics()
-        //setUpAdBannerView()
+        //testingButtonsForiAd()
     }
     
     private func setUpBackground() {
@@ -113,6 +115,11 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
         backgroundImageView.image = UIImage(named: "pokerTableFelt.jpg")
         backgroundImageView.contentMode = .ScaleAspectFill
         view.addSubview(backgroundImageView)
+    }
+    
+    func setUpAnimatorView() {
+        animatorView = UIView(frame: CGRectMake(0, 0, screenWidth, screenHeight - bottomViewHeight))
+        view.addSubview(animatorView)
     }
     
     private func setUpBottomView() {
@@ -133,14 +140,9 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
     }
     
     private func setUpUIDynamics() {
-        animator = UIDynamicAnimator(referenceView: self.view)
-        setUpCollisionBoundaries()
-        animator.addBehavior(diceBehavior)
-    }
-    
-    private func setUpCollisionBoundaries() {
+        animator = UIDynamicAnimator(referenceView: animatorView)
         diceBehavior.collisionBehavior.translatesReferenceBoundsIntoBoundary = true
-        diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewBorder",fromPoint: bottomViewNormalFrame.origin, toPoint: CGPointMake(bottomViewNormalFrame.origin.x + screenWidth, bottomViewNormalFrame.origin.y))
+        animator.addBehavior(diceBehavior)
     }
 
     private func setUpMotionManager() {
@@ -315,29 +317,18 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
     }
     
     func showAd() {
-        diceBehavior.collisionBehavior.removeBoundaryWithIdentifier("bottomViewShowAdBoundary")
-        
-        for diceView in diceViewInView {
-            if diceView.frame.origin.y >= (bottomViewDuringAdFrame.origin.y - diceWidth) {
-                pushView(diceView, angle: CGFloat(3 * M_PI_2), offset: UIOffsetZero, magnitude: 5)
-            }
-        }
-
-        delayClosureWithTime(0.5) {
-            self.diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewShowAdBoundary", fromPoint: bottomViewDuringAdFrame.origin, toPoint: CGPointMake(bottomViewDuringAdFrame.origin.x + screenWidth,bottomViewDuringAdFrame.origin.y))
-            UIView.animateWithDuration(self.adAnimationDuration,
-                animations: {
-                    self.bottomView.frame = bottomViewDuringAdFrame
-                    self.adBannerView.frame = adShowingFrame
-            })
-            
-        }
+        UIView.animateWithDuration(self.adAnimationDuration,
+            animations: {
+                self.animatorView.frame = animatorViewDuringAdFrame
+                self.bottomView.frame = bottomViewDuringAdFrame
+                self.adBannerView.frame = adShowingFrame
+        })
     }
     
     func hideAd() {
-        diceBehavior.collisionBehavior.removeBoundaryWithIdentifier("bottomViewShowAdBoundary")
         UIView.animateWithDuration(adAnimationDuration,
             animations: {
+                self.animatorView.frame = animatorViewHideAdFrame
                 self.bottomView.frame = bottomViewNormalFrame
                 self.adBannerView.frame = adHiddenFrame
         })
