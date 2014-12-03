@@ -13,11 +13,6 @@ import iAd
 
 //MARK: Global Variables
 
-let diceWidth = CGFloat(60)
-
-let screenWidth = UIScreen.mainScreen().bounds.width
-let screenHeight = UIScreen.mainScreen().bounds.height
-
 let bottomViewHeight = screenHeight/10
 let bottomViewWidth = screenWidth
 
@@ -29,32 +24,13 @@ let adHeight = CGFloat(50)
 let adHiddenFrame = CGRectMake(0, screenHeight, screenWidth, adHeight)
 let adShowingFrame = CGRectMake(0, screenHeight - adHeight, screenWidth, adHeight)
 
-
-//MARK: Global Functions
-
-func delayClosureWithTime(delay : Double, closure: () -> ()) {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), closure)
-}
-
-func afterAnimationCompleteDoClosure(animation:()->(), closure:()->()) {
-    CATransaction.begin()
-    CATransaction.setCompletionBlock(closure)
-    animation()
-    CATransaction.commit()
-}
-
-func animateViewPop(view : UIView) {
-    view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.001, 0.001)
-    UIView.animateWithDuration(0.3/1.5, animations: {view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1)}, completion: {(complete : Bool) in
-        UIView.animateWithDuration(0.3/2, animations: {view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.9, 0.9)}, completion: {(complete : Bool) in
-            UIView.animateWithDuration(0.3/2, animations: {view.transform = CGAffineTransformIdentity
-            })
-        })
-    })}
+let animatorViewDuringAdFrame = CGRectMake(0, 0, screenWidth, screenHeight - bottomViewHeight - adHeight)
+let animatorViewHideAdFrame = CGRectMake(0, 0, screenWidth, screenHeight - bottomViewHeight)
 
 class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, ADBannerViewDelegate {
     
     //MARK: UI Properties
+    var animatorView : UIView!
     var bottomView : BottomView!
     var adBannerView : ADBannerView!
     var diceNumberLimitRounded = 10
