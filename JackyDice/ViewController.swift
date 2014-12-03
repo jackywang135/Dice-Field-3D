@@ -83,7 +83,6 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
     override func viewDidLoad() {
         super.viewDidLoad()
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
-        diceImageHelper = DiceImageHelper()
         setUpUI()
         setUpMotionManager()
         delayClosureWithTime(1) {self.addNewDice()}
@@ -279,7 +278,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
         spinAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         spinAnimation.toValue = 2 * M_PI
         spinAnimation.duration = duration
-        spinAnimation.cumulative = true
+        spinAnimation.cumulative = false
         spinAnimation.repeatCount = 1
         diceView.layer.addAnimation(spinAnimation, forKey: "spinAnimation")
     }
@@ -348,15 +347,18 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
             self.animateDiceSpin(diceView, duration: 0.25)
             return
         }
-        afterAnimationCompleteDoClosure({
-            self.animateDiceSpin(diceView, duration: 0.25)}) {
-                if self.bottomView.buttonAddDice.enabled == false {
-                    self.buttonAddDiceShouldEnable(true)
-                }
-                self.diceBehavior.removeItem(diceView)
-                diceView.removeFromSuperview()
-                self.updateTotalLabel()
-        }
+        
+        CATransaction.begin()
+        CATransaction.setCompletionBlock({
+            self.diceBehavior.removeItem(diceView)
+            diceView.removeFromSuperview()
+            if self.bottomView.buttonAddDice.enabled == false {
+                self.buttonAddDiceShouldEnable(true)
+            }
+            self.updateTotalLabel()
+        })
+        self.animateDiceSpin(diceView, duration: 0.25)
+        CATransaction.commit()
     }
     
     func getDiceAnimateImageForDiceView(diceView : DiceView) -> [UIImage]{
@@ -382,7 +384,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
     
     func testingAddFullDice() {
         while diceViewInView.count < diceNumberLimitRounded {
-            self.addNewDice()
+            addNewDice()
         }
     }
     
