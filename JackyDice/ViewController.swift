@@ -128,7 +128,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
     
     private func setUpBackground() {
         var backgroundImageView = UIImageView(frame: UIScreen.mainScreen().bounds)
-        backgroundImageView.image = UIImage(named: "pokerTableFelt")
+        backgroundImageView.image = UIImage(named: "pokerTableFelt.jpg")
         backgroundImageView.contentMode = .ScaleAspectFill
         view.addSubview(backgroundImageView)
     }
