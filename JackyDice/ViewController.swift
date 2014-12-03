@@ -334,7 +334,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
         testDice.displayAndSetNumber(1)
         view.addSubview(testDice)
         diceBehavior.addItem(testDice)
-        delayClosureWithTime(0.5, {self.diceBehavior.gravityBehavior.removeItem(testDice)})
+        self.diceBehavior.gravityBehavior.removeItem(testDice)
         
         moveDiceUpWhenAdShows(){
         self.diceBehavior.collisionBehavior.addBoundaryWithIdentifier("bottomViewShowAdBoundary", fromPoint: bottomViewDuringAdFrame.origin, toPoint: CGPointMake(bottomViewDuringAdFrame.origin.x + screenWidth, bottomViewDuringAdFrame.origin.y))
@@ -351,7 +351,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
         diceBehavior.collisionBehavior.removeBoundaryWithIdentifier("bottomViewShowAdBoundary")
         UIView.animateWithDuration(adAnimationDuration, animations: {
             for diceView in self.diceViewInView {
-                if diceView.frame.origin.y >= (screenHeight - bottomViewHeight - diceWidth) {
+                if diceView.frame.origin.y >= (bottomViewDuringAdFrame.origin.y - diceWidth) {
                     diceView.frame.origin.y = diceView.frame.origin.y - adHeight
                 }
             }
