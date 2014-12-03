@@ -195,9 +195,15 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
         animateViewPop(bottomView.buttonAddDice)
     }
     
+    private func buttonShakeShouldEnable(bool : Bool) {
+        self.bottomView.buttonShake.enabled = bool
+        animateViewPop(bottomView.buttonShake)
+    }
+    
     //MARK: Dice Functions
     
     private func addNewDice() {
+        playSoundEffect()
         addNewDiceInView()
         updateTotalLabel()
         if diceViewInView.count >= diceNumberLimitRounded  {
@@ -206,24 +212,25 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
     }
     
     private func addNewDiceInView() {
-        playSoundEffect()
         let diceViewXposition = Int(arc4random_uniform(UInt32(screenWidth - diceWidth)))
         var diceView = DiceView(frame: CGRectMake(CGFloat(diceViewXposition), 0, diceWidth, diceWidth))
         diceView.delegate = self
         diceView.displayAndSetNumber(1)
-        view.addSubview(diceView)
+        animatorView.addSubview(diceView)
         diceBehavior.addItem(diceView)
         delayClosureWithTime(0.5, {self.diceBehavior.gravityBehavior.removeItem(diceView)})
     }
 
     private func rollAllDice() {
-        bottomView.buttonShake.enabled = false
+        buttonShakeShouldEnable(false)
         playSoundEffect()
         animateDicePush()
         CATransaction.begin()
         CATransaction.setCompletionBlock({
-            delayClosureWithTime(0.25) {self.updateTotalLabel()}
-            self.bottomView.buttonShake.enabled = true
+            delayClosureWithTime(0.25) {
+            self.updateTotalLabel()
+            self.buttonShakeShouldEnable(true)
+            }
         })
         for diceView in diceViewInView {
             diceView.roll()
@@ -363,6 +370,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
     //MARK: BottomViewDelegate
     
     func pressedButtonAddDice(bottomView: BottomView) {
+        animateViewPop(bottomView.buttonAddDice)
         addNewDice()
     }
     
