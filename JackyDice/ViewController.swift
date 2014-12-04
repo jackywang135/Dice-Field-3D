@@ -103,9 +103,9 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
         setUpAnimatorView()
         setUpBottomView()
         setUpAdBannerView()
-        animateBottomView()
         setUpDiceLimit()
         setUpUIDynamics()
+        animateBottomView()
         //testingButtonsForiAd()
     }
     
