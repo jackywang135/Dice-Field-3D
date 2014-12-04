@@ -226,7 +226,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
         animateDicePush()
         CATransaction.begin()
         CATransaction.setCompletionBlock({
-            delayClosureWithTime(0.25) {
+            delayClosureWithTime(0.2) {
             self.updateTotalLabel()
             self.buttonShakeShouldEnable(true)
             }
