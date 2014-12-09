@@ -20,7 +20,9 @@ let bottomViewHiddenFrame = CGRectMake(0, screenHeight, bottomViewWidth, bottomV
 let bottomViewNormalFrame = CGRectMake(0, screenHeight - bottomViewHeight,bottomViewWidth, bottomViewHeight)
 let bottomViewDuringAdFrame = CGRectMake(0, adShowingFrame.origin.y - bottomViewHeight, bottomViewWidth, bottomViewHeight)
 
-let adHeight = CGFloat(50)
+
+var adHeight = UIDevice.currentDevice().userInterfaceIdiom == .Pad ? CGFloat(66) : CGFloat(50)
+
 let adHiddenFrame = CGRectMake(0, screenHeight, screenWidth, adHeight)
 let adShowingFrame = CGRectMake(0, screenHeight - adHeight, screenWidth, adHeight)
 
