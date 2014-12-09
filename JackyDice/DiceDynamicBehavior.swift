@@ -31,13 +31,13 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     }
     
     private func setUpDynamicItemBehavior() {
-        dynamicItemBehavior.elasticity = 0.65
+        dynamicItemBehavior.elasticity = 0.45
         dynamicItemBehavior.resistance = 1
         dynamicItemBehavior.angularResistance = 1
     }
     
     private func setUpGravityBehavior() {
-        gravityBehavior.magnitude = 15
+        gravityBehavior.magnitude = 9
     }
     
     func addItem(item : UIDynamicItem) {
@@ -58,17 +58,20 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint) {
         if item1 is DiceView {
-            delayClosureWithTime(finishAnimationAfterTime){ (item1 as DiceView).stopAnimating()}
+            delayClosureWithTime(finishAnimationAfterTime){
+                (item1 as DiceView).stopAnimating()}
         }
         if item2 is DiceView {
-            delayClosureWithTime(finishAnimationAfterTime){ (item2 as DiceView).stopAnimating()}
+            delayClosureWithTime(finishAnimationAfterTime){
+                (item2 as DiceView).stopAnimating()}
         }
     }
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying, atPoint p: CGPoint) {
         gravityBehavior.removeItem(item)
         if item is DiceView {
-            delayClosureWithTime(finishAnimationAfterTime){ (item as DiceView).stopAnimating()}
+            delayClosureWithTime(finishAnimationAfterTime){
+                (item as DiceView).stopAnimating()}
         }
     }
 }

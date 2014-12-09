@@ -32,9 +32,9 @@ func afterAnimationCompleteDoClosure(animation:()->(), closure:()->()) {
 
 func animateViewPop(view : UIView) {
     view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.001, 0.001)
-    UIView.animateWithDuration(0.3/1.5, animations: {view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1)}, completion: {(complete : Bool) in
-        UIView.animateWithDuration(0.3/2, animations: {view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.9, 0.9)}, completion: {(complete : Bool) in
-            UIView.animateWithDuration(0.3/2, animations: {view.transform = CGAffineTransformIdentity
+    UIView.animateWithDuration(0.2/1.5, animations: {view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1)}, completion: {(complete : Bool) in
+        UIView.animateWithDuration(0.2/2, animations: {view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.9, 0.9)}, completion: {(complete : Bool) in
+            UIView.animateWithDuration(0.2/2, animations: {view.transform = CGAffineTransformIdentity
             })
         })
     })}
