@@ -152,7 +152,14 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
             let rotationZ = CGFloat(data.rotationRate.z)
             let accelerateX = CGFloat(data.userAcceleration.x)
             let accelerateY = CGFloat(data.userAcceleration.y)
-            self.diceMotionHandler(rotationX, rotationY: rotationY, rotationZ: rotationZ, accelerateX: accelerateX, accelerateY: accelerateY)
+            
+            let accelerateLimit = CGFloat(2)
+            let rotationLimit = CGFloat(6)
+            if accelerateX > accelerateLimit || accelerateY > accelerateLimit || rotationX > rotationLimit || rotationY > rotationLimit || rotationZ > rotationLimit {
+                self.rollAllDice()
+            } else {
+                self.diceMotionHandler(rotationX, rotationY: rotationY, rotationZ: rotationZ, accelerateX: accelerateX, accelerateY: accelerateY)
+            }
         }
         motionManager.deviceMotionUpdateInterval = 0.1
         motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler: deviceMotionHandler)
