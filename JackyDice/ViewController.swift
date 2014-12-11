@@ -29,7 +29,7 @@ let adShowingFrame = CGRectMake(0, screenHeight - adHeight, screenWidth, adHeigh
 let animatorViewDuringAdFrame = CGRectMake(0, 0, screenWidth, screenHeight - bottomViewHeight - adHeight)
 let animatorViewHideAdFrame = CGRectMake(0, 0, screenWidth, screenHeight - bottomViewHeight)
 
-class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, ADBannerViewDelegate {
+class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, ADBannerViewDelegate, DiceDynamicBehaviorDelegate {
     
     //MARK: UI Properties
     var animatorView : UIView!
@@ -226,10 +226,18 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
         diceView.displayAndSetNumber(1)
         animatorView.addSubview(diceView)
         diceBehavior.addItem(diceView)
+        diceBehavior.diceDynamicBehaviorBehavior = self
         delayClosureWithTime(0.5, {self.diceBehavior.gravityBehavior.removeItem(diceView)})
     }
 
     private func rollAllDice() {
+        if isRolling {
+            return
+        }
+        for diceView in diceViewInView {
+            diceView.didContactOnce = false
+        } //reset didContact to allow callback
+        isRolling = true
         buttonShakeShouldEnable(false)
         playSoundEffect()
         animateDicePush()
@@ -238,12 +246,34 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
             delayClosureWithTime(0.2) {
             self.updateTotalLabel()
             self.buttonShakeShouldEnable(true)
+            self.isRolling = false
             }
         })
+        
+        let longestPossibleAnimationTime = 1.0
         for diceView in diceViewInView {
             diceView.roll()
+            delayClosureWithTime(longestPossibleAnimationTime){
+                diceView.stopAnimating()
+            } //Making sure it stops animating eventually         
         }
         CATransaction.commit()
+    }
+    
+    var finishAnimationAfterTime : Double {
+        get {
+            return Double((arc4random_uniform(UInt32(30)) + 70 ))/100
+        }
+    }
+    
+    var isRolling : Bool = false
+    
+    func contactMade(dice: DiceView) {
+        if isRolling && !dice.didContactOnce{
+            dice.didContactOnce = true
+            delayClosureWithTime(finishAnimationAfterTime){
+                dice.stopAnimating()}
+        }
     }
     
     //MARK: Animation

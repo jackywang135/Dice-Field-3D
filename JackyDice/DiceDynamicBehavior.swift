@@ -9,11 +9,17 @@
 import Foundation
 import UIKit
 
+protocol DiceDynamicBehaviorDelegate {
+    func contactMade(dice:DiceView)
+}
+
 class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     
     var collisionBehavior = UICollisionBehavior()
     var dynamicItemBehavior = UIDynamicItemBehavior()
     var gravityBehavior = UIGravityBehavior()
+    
+    var diceDynamicBehaviorBehavior : DiceDynamicBehaviorDelegate!
 
     override init() {
         super.init()
@@ -54,24 +60,23 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     
     //MARK: Collision Delegate methods
     
-    let finishAnimationAfterTime = Double(1)
+    let finishAnimationAfterTime = Double(5)
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint) {
         if item1 is DiceView {
-            delayClosureWithTime(finishAnimationAfterTime){
-                (item1 as DiceView).stopAnimating()}
+            diceDynamicBehaviorBehavior.contactMade((item1 as DiceView))
         }
         if item2 is DiceView {
-            delayClosureWithTime(finishAnimationAfterTime){
-                (item2 as DiceView).stopAnimating()}
+            diceDynamicBehaviorBehavior.contactMade((item1 as DiceView))
         }
     }
+
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying, atPoint p: CGPoint) {
         gravityBehavior.removeItem(item)
         if item is DiceView {
-            delayClosureWithTime(finishAnimationAfterTime){
-                (item as DiceView).stopAnimating()}
-        }
-    }
+            diceDynamicBehaviorBehavior.contactMade((item as DiceView))
 }
+}
+}
+
