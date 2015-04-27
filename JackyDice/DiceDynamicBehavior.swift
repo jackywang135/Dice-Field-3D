@@ -57,18 +57,20 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     let finishAnimationAfterTime = Double(1)
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint) {
-        if item1 is DiceView {
-            delayClosureWithTime(finishAnimationAfterTime){ (item1 as DiceView).stopAnimating()}
-        }
-        if item2 is DiceView {
-            delayClosureWithTime(finishAnimationAfterTime){ (item2 as DiceView).stopAnimating()}
-        }
+		if let dice1 = item1 as? DiceView,
+		let dice2 = item2 as? DiceView {
+			delayClosureWithTime(finishAnimationAfterTime){ dice1.stopAnimating()
+				dice2.stopAnimating()
+			}
+		}
     }
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying, atPoint p: CGPoint) {
         gravityBehavior.removeItem(item)
-        if item is DiceView {
-            delayClosureWithTime(finishAnimationAfterTime){ (item as DiceView).stopAnimating()}
-        }
+		if let dice = item as? DiceView {
+			delayClosureWithTime(finishAnimationAfterTime) {
+				dice.stopAnimating()
+			}
+		}
     }
 }

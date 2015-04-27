@@ -60,25 +60,15 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate {
     //MARK: Collection & Total Properties
     var diceViewInView : [DiceView] {
         get {
-            var array = [DiceView]()
-            for view in self.view.subviews {
-                if view is DiceView {
-                    array.append(view as DiceView)
-                }
-            }
-            return array
+			return self.view.subviews.filter { $0 is DiceView } as! [DiceView]
         }
     }
     
     var total : Int {
         get {
-            var sum = 0
-            for diceView in diceViewInView {
-                sum = sum + diceView.number
-            }
-            return sum
-        }
-    }
+			return diceViewInView.reduce(0){$0 + $1.number }
+			}
+	}
     
     //MARK: Functions
     

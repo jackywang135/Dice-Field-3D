@@ -50,7 +50,7 @@ class BottomView : UIView {
     }
     
     private func setUpButtonShake() {
-        buttonShake = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        buttonShake = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         buttonShake.frame = CGRectMake(bounds.width / 3, 0, bounds.width / 3, bounds.height)
         buttonShake.setTitle("Shake", forState: UIControlState.Normal)
         buttonShake.setTitle("Rolling", forState: UIControlState.Disabled)
@@ -66,7 +66,7 @@ class BottomView : UIView {
     }
     
     private func setUpButtonAddDice() {
-        buttonAddDice = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        buttonAddDice = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         buttonAddDice.frame = CGRectMake(bounds.width * 2 / 3, 0 , bounds.width / 3, bounds.height)
         buttonAddDice.setTitle("+", forState: UIControlState.Normal)
         buttonAddDice.setTitle("Full", forState: UIControlState.Disabled)
