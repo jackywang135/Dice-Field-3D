@@ -21,6 +21,7 @@ class DiceView : UIImageView {
     
     var number : Int = 0
     var tapGesture : UITapGestureRecognizer?
+    var didContactOnce = false
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

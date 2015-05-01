@@ -9,11 +9,17 @@
 import Foundation
 import UIKit
 
+protocol DiceDynamicBehaviorDelegate {
+    func contactMade(dice:DiceView)
+}
+
 class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     
     var collisionBehavior = UICollisionBehavior()
     var dynamicItemBehavior = UIDynamicItemBehavior()
     var gravityBehavior = UIGravityBehavior()
+    
+    var diceDynamicBehaviorBehavior : DiceDynamicBehaviorDelegate!
 
     override init() {
         super.init()
@@ -31,13 +37,13 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     }
     
     private func setUpDynamicItemBehavior() {
-        dynamicItemBehavior.elasticity = 0.65
+        dynamicItemBehavior.elasticity = 0.45
         dynamicItemBehavior.resistance = 1
         dynamicItemBehavior.angularResistance = 1
     }
     
     private func setUpGravityBehavior() {
-        gravityBehavior.magnitude = 15
+        gravityBehavior.magnitude = 9
     }
     
     func addItem(item : UIDynamicItem) {
@@ -54,7 +60,7 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     
     //MARK: Collision Delegate methods
     
-    let finishAnimationAfterTime = Double(1)
+    let finishAnimationAfterTime = Double(5)
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint) {
 		if let dice1 = item1 as? DiceView,
@@ -64,6 +70,7 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
 			}
 		}
     }
+
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying, atPoint p: CGPoint) {
         gravityBehavior.removeItem(item)
@@ -74,3 +81,4 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
 		}
     }
 }
+

@@ -46,7 +46,7 @@ class BottomView : UIView {
     }
     
     private func setUpBackgroundImage() {
-        backgroundColor = UIColor(patternImage: UIImage(named: "wood")!)
+        backgroundColor = UIColor(patternImage: UIImage(named: "wood.jpg")!)
     }
     
     private func setUpButtonShake() {
@@ -79,11 +79,11 @@ class BottomView : UIView {
     
     func shake(sender:UIButton) {
         delegate.pressedButtonShake(self)
-        animateViewPop(buttonShake)
+        //animateViewPop(buttonShake)
     }
     
     func add(sender:UIButton) {
         delegate.pressedButtonAddDice(self)
-        animateViewPop(buttonAddDice)
+        //animateViewPop(buttonAddDice)
     }
 }
