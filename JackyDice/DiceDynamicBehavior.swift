@@ -63,10 +63,14 @@ class DiceDynamicBehavior : UIDynamicBehavior, UICollisionBehaviorDelegate {
     let finishAnimationAfterTime = Double(5)
     
     func collisionBehavior(behavior: UICollisionBehavior, beganContactForItem item1: UIDynamicItem, withItem item2: UIDynamicItem, atPoint p: CGPoint) {
-		if let dice1 = item1 as? DiceView,
-		let dice2 = item2 as? DiceView {
-			delayClosureWithTime(finishAnimationAfterTime){ dice1.stopAnimating()
-				dice2.stopAnimating()
+        if let dice = item1 as? DiceView {
+            delayClosureWithTime(finishAnimationAfterTime){
+                dice.stopAnimating()
+            }
+        }
+		if let dice = item2 as? DiceView {
+            delayClosureWithTime(finishAnimationAfterTime) {
+				dice.stopAnimating()
 			}
 		}
     }

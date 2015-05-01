@@ -51,7 +51,7 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
     //MARK: Collection & Total Properties
     var diceViewInView : [DiceView] {
         get {
-			return self.view.subviews.filter { $0 is DiceView } as! [DiceView]
+			return self.animatorView.subviews.filter { $0 is DiceView } as! [DiceView]
         }
     }
     
