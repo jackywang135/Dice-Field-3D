@@ -51,25 +51,15 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
     //MARK: Collection & Total Properties
     var diceViewInView : [DiceView] {
         get {
-            var array = [DiceView]()
-            for view in animatorView.subviews {
-                if view is DiceView {
-                    array.append(view as DiceView)
-                }
-            }
-            return array
+			return self.view.subviews.filter { $0 is DiceView } as! [DiceView]
         }
     }
     
     var total : Int {
         get {
-            var sum = 0
-            for diceView in diceViewInView {
-                sum = sum + diceView.number
-            }
-            return sum
-        }
-    }
+			return diceViewInView.reduce(0){$0 + $1.number }
+			}
+	}
     
     //MARK: Functions
     
@@ -428,12 +418,12 @@ class ViewController: UIViewController, DiceViewDelegate, BottomViewDelegate, AD
     }
     
     func testingButtonsForiAd() {
-        var buttonShowAd = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        var buttonShowAd = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         buttonShowAd.setTitle("S", forState: UIControlState.Normal)
         buttonShowAd.frame = CGRectMake(screenWidth - diceWidth, 0, diceWidth, diceWidth)
         buttonShowAd.addTarget(self, action: "showAd", forControlEvents: UIControlEvents.TouchUpInside)
         
-        var buttonHideAd = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        var buttonHideAd = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         buttonHideAd.setTitle("H", forState: UIControlState.Normal)
         buttonHideAd.frame = CGRectMake(screenWidth - diceWidth * 2, 0, diceWidth, diceWidth)
         buttonHideAd.addTarget(self, action: "hideAd", forControlEvents: UIControlEvents.TouchUpInside)
