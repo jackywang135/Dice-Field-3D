@@ -19,7 +19,7 @@ protocol JW3DDiceViewDelegate {
 
 class JW3DDiceView: UIView {
     //Customizable properties
-    var diceWidth: CGFloat = 30
+    var diceWidth: CGFloat = 60
     var diceCount: Int {
         get {
             return diceViews.count
