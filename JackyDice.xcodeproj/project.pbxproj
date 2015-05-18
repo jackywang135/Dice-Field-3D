@@ -14,7 +14,7 @@
 		85879CAA1A1F727400DFD0E0 /* JackyDiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879CA91A1F727400DFD0E0 /* JackyDiceTests.swift */; };
 		85879CB61A1F72B000DFD0E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879CB51A1F72B000DFD0E0 /* ViewController.swift */; };
 		C7085A6A1B0A99B3001C09A7 /* ViewControllerFrames.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7085A691B0A99B3001C09A7 /* ViewControllerFrames.swift */; };
-		C7085A741B0AA19A001C09A7 /* JW3DDiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7085A731B0AA19A001C09A7 /* JW3DDiceView.swift */; };
+		C7085A781B0AB069001C09A7 /* JW3DDiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7085A771B0AB069001C09A7 /* JW3DDiceView.swift */; };
 		C71C878B1A2D906F00DFBECE /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C71C878A1A2D906F00DFBECE /* iAd.framework */; };
 		C76AA4901A246E200002F1A2 /* ShakeAndRollDice.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C76AA48F1A246E200002F1A2 /* ShakeAndRollDice.mp3 */; };
 /* End PBXBuildFile section */
@@ -41,7 +41,7 @@
 		85879CA91A1F727400DFD0E0 /* JackyDiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackyDiceTests.swift; sourceTree = "<group>"; };
 		85879CB51A1F72B000DFD0E0 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C7085A691B0A99B3001C09A7 /* ViewControllerFrames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerFrames.swift; sourceTree = "<group>"; };
-		C7085A731B0AA19A001C09A7 /* JW3DDiceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JW3DDiceView.swift; path = ../../JW3DDiceView/JW3DDiceView/JW3DDiceView.swift; sourceTree = "<group>"; };
+		C7085A771B0AB069001C09A7 /* JW3DDiceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JW3DDiceView.swift; sourceTree = "<group>"; };
 		C71C878A1A2D906F00DFBECE /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		C76AA48F1A246E200002F1A2 /* ShakeAndRollDice.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ShakeAndRollDice.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -134,8 +134,8 @@
 		C7C5FC7B1A28645B0006D0EA /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C7085A731B0AA19A001C09A7 /* JW3DDiceView.swift */,
 				8546566E1A20709B00CB3DAA /* BottomView.swift */,
+				C7085A771B0AB069001C09A7 /* JW3DDiceView.swift */,
 				85879C971A1F727300DFD0E0 /* Main.storyboard */,
 				85879C9A1A1F727300DFD0E0 /* Images.xcassets */,
 			);
@@ -250,9 +250,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				85879CB61A1F72B000DFD0E0 /* ViewController.swift in Sources */,
-				C7085A741B0AA19A001C09A7 /* JW3DDiceView.swift in Sources */,
 				C7085A6A1B0A99B3001C09A7 /* ViewControllerFrames.swift in Sources */,
 				85879C941A1F727300DFD0E0 /* AppDelegate.swift in Sources */,
+				C7085A781B0AB069001C09A7 /* JW3DDiceView.swift in Sources */,
 				8546566F1A20709B00CB3DAA /* BottomView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

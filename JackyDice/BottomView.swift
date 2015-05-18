@@ -46,7 +46,7 @@ class BottomView : UIView {
     }
     
     final private func setUpBackgroundImage() {
-        backgroundColor = UIColor(patternImage: UIImage(named: "wood")!)
+        backgroundColor = UIColor(patternImage: UIImage(named: "wood.jpg")!)
     }
     
     final private func setUpButtonShake() {
