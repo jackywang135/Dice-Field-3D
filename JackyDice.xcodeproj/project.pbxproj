@@ -12,15 +12,11 @@
 		85879C991A1F727300DFD0E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85879C971A1F727300DFD0E0 /* Main.storyboard */; };
 		85879C9B1A1F727300DFD0E0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85879C9A1A1F727300DFD0E0 /* Images.xcassets */; };
 		85879CAA1A1F727400DFD0E0 /* JackyDiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879CA91A1F727400DFD0E0 /* JackyDiceTests.swift */; };
-		85879CB41A1F729100DFD0E0 /* DiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879CB31A1F729100DFD0E0 /* DiceView.swift */; };
 		85879CB61A1F72B000DFD0E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879CB51A1F72B000DFD0E0 /* ViewController.swift */; };
-		85879CB81A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879CB71A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift */; };
-		85A930051A2F5D410080D441 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A930041A2F5D410080D441 /* Global.swift */; };
+		C7085A6A1B0A99B3001C09A7 /* ViewControllerFrames.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7085A691B0A99B3001C09A7 /* ViewControllerFrames.swift */; };
+		C7085A741B0AA19A001C09A7 /* JW3DDiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7085A731B0AA19A001C09A7 /* JW3DDiceView.swift */; };
 		C71C878B1A2D906F00DFBECE /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C71C878A1A2D906F00DFBECE /* iAd.framework */; };
-		C764A2C31A25CDB2003B5B99 /* DiceImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C764A2C21A25CDB2003B5B99 /* DiceImageHelper.swift */; };
 		C76AA4901A246E200002F1A2 /* ShakeAndRollDice.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C76AA48F1A246E200002F1A2 /* ShakeAndRollDice.mp3 */; };
-		C7FF8DF11A2F0B93003BA2FC /* wood.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7FF8DF01A2F0B93003BA2FC /* wood.jpg */; };
-		C7FF8DF61A2F0C79003BA2FC /* pokerTableFeltRed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7FF8DF51A2F0C79003BA2FC /* pokerTableFeltRed.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,15 +39,11 @@
 		85879CA31A1F727400DFD0E0 /* JackyDiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JackyDiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85879CA81A1F727400DFD0E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85879CA91A1F727400DFD0E0 /* JackyDiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackyDiceTests.swift; sourceTree = "<group>"; };
-		85879CB31A1F729100DFD0E0 /* DiceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiceView.swift; sourceTree = "<group>"; };
 		85879CB51A1F72B000DFD0E0 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		85879CB71A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiceDynamicBehavior.swift; sourceTree = "<group>"; };
-		85A930041A2F5D410080D441 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
+		C7085A691B0A99B3001C09A7 /* ViewControllerFrames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerFrames.swift; sourceTree = "<group>"; };
+		C7085A731B0AA19A001C09A7 /* JW3DDiceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JW3DDiceView.swift; path = ../../JW3DDiceView/JW3DDiceView/JW3DDiceView.swift; sourceTree = "<group>"; };
 		C71C878A1A2D906F00DFBECE /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
-		C764A2C21A25CDB2003B5B99 /* DiceImageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiceImageHelper.swift; sourceTree = "<group>"; };
 		C76AA48F1A246E200002F1A2 /* ShakeAndRollDice.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ShakeAndRollDice.mp3; sourceTree = "<group>"; };
-		C7FF8DF01A2F0B93003BA2FC /* wood.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wood.jpg; sourceTree = "<group>"; };
-		C7FF8DF51A2F0C79003BA2FC /* pokerTableFeltRed.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = pokerTableFeltRed.jpg; path = JackyDice/Images.xcassets/pokerTableFelt.imageset/pokerTableFeltRed.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +72,6 @@
 				85879C901A1F727300DFD0E0 /* JackyDice */,
 				85879CA61A1F727400DFD0E0 /* JackyDiceTests */,
 				85879C8F1A1F727300DFD0E0 /* Products */,
-				C7FF8DF21A2F0C3D003BA2FC /* Images */,
 			);
 			sourceTree = "<group>";
 		};
@@ -135,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				85879CB51A1F72B000DFD0E0 /* ViewController.swift */,
+				C7085A691B0A99B3001C09A7 /* ViewControllerFrames.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -142,8 +134,8 @@
 		C7C5FC7B1A28645B0006D0EA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C7085A731B0AA19A001C09A7 /* JW3DDiceView.swift */,
 				8546566E1A20709B00CB3DAA /* BottomView.swift */,
-				85879CB31A1F729100DFD0E0 /* DiceView.swift */,
 				85879C971A1F727300DFD0E0 /* Main.storyboard */,
 				85879C9A1A1F727300DFD0E0 /* Images.xcassets */,
 			);
@@ -153,20 +145,8 @@
 		C7C5FC7C1A2864620006D0EA /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				85A930041A2F5D410080D441 /* Global.swift */,
-				85879CB71A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift */,
-				C764A2C21A25CDB2003B5B99 /* DiceImageHelper.swift */,
 			);
 			name = Model;
-			sourceTree = "<group>";
-		};
-		C7FF8DF21A2F0C3D003BA2FC /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				C7FF8DF01A2F0B93003BA2FC /* wood.jpg */,
-				C7FF8DF51A2F0C79003BA2FC /* pokerTableFeltRed.jpg */,
-			);
-			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,10 +230,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				85879C991A1F727300DFD0E0 /* Main.storyboard in Resources */,
-				C7FF8DF11A2F0B93003BA2FC /* wood.jpg in Resources */,
 				85879C9B1A1F727300DFD0E0 /* Images.xcassets in Resources */,
 				C76AA4901A246E200002F1A2 /* ShakeAndRollDice.mp3 in Resources */,
-				C7FF8DF61A2F0C79003BA2FC /* pokerTableFeltRed.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,12 +250,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				85879CB61A1F72B000DFD0E0 /* ViewController.swift in Sources */,
-				85879CB41A1F729100DFD0E0 /* DiceView.swift in Sources */,
-				85879CB81A1F8C4F00DFD0E0 /* DiceDynamicBehavior.swift in Sources */,
+				C7085A741B0AA19A001C09A7 /* JW3DDiceView.swift in Sources */,
+				C7085A6A1B0A99B3001C09A7 /* ViewControllerFrames.swift in Sources */,
 				85879C941A1F727300DFD0E0 /* AppDelegate.swift in Sources */,
-				C764A2C31A25CDB2003B5B99 /* DiceImageHelper.swift in Sources */,
 				8546566F1A20709B00CB3DAA /* BottomView.swift in Sources */,
-				85A930051A2F5D410080D441 /* Global.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

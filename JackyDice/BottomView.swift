@@ -36,7 +36,7 @@ class BottomView : UIView {
     private let font = UIFont(name: "HelveticaNeue", size: 40)
     private let color = UIColor.whiteColor()
     
-    private func setUpTotalLabel() {
+    final private func setUpTotalLabel() {
         labelTotal = UILabel(frame: CGRectMake(0, 0, bounds.width / 3, bounds.height))
         labelTotal.adjustsFontSizeToFitWidth = true
         labelTotal.font = font
@@ -45,11 +45,11 @@ class BottomView : UIView {
         addSubview(labelTotal)
     }
     
-    private func setUpBackgroundImage() {
-        backgroundColor = UIColor(patternImage: UIImage(named: "wood.jpg")!)
+    final private func setUpBackgroundImage() {
+        backgroundColor = UIColor(patternImage: UIImage(named: "wood")!)
     }
     
-    private func setUpButtonShake() {
+    final private func setUpButtonShake() {
         buttonShake = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         buttonShake.frame = CGRectMake(bounds.width / 3, 0, bounds.width / 3, bounds.height)
         buttonShake.setTitle("Shake", forState: UIControlState.Normal)
@@ -65,7 +65,7 @@ class BottomView : UIView {
         addSubview(buttonShake)
     }
     
-    private func setUpButtonAddDice() {
+    final private func setUpButtonAddDice() {
         buttonAddDice = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         buttonAddDice.frame = CGRectMake(bounds.width * 2 / 3, 0 , bounds.width / 3, bounds.height)
         buttonAddDice.setTitle("+", forState: UIControlState.Normal)
@@ -77,12 +77,12 @@ class BottomView : UIView {
         addSubview(buttonAddDice)
     }
     
-    func shake(sender:UIButton) {
+    final func shake(sender:UIButton) {
         delegate.pressedButtonShake(self)
         //animateViewPop(buttonShake)
     }
     
-    func add(sender:UIButton) {
+    final func add(sender:UIButton) {
         delegate.pressedButtonAddDice(self)
         //animateViewPop(buttonAddDice)
     }
