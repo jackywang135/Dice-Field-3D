@@ -43,7 +43,6 @@ class JW3DDiceView: UIView, JW3DDiceDelegate {
     var delegate: JW3DDiceViewDelegate?
     
     //Private
-    private var finishRollingDiceCount = 0
     private let defaultBackgroundImage = UIImage(named: "defaultBackground.jpg")
     private let diceMaxDensityInFrame : CGFloat = 1/7
     private let motionManager = CMMotionManager()
@@ -120,9 +119,6 @@ extension JW3DDiceView {
         delegate?.diceViewDidStartRolling(self)
         pushDice()
         diceViews.map() { $0.roll()}
-        delay(1.0) {
-            self.diceViews.map(){ $0.stopAnimating }
-        }
     }
     private func pushDice() {
         func getRandomRadians() -> CGFloat {
@@ -151,10 +147,9 @@ extension JW3DDiceView {
     
     }
     func diceDidEndRolling(dice: JW3DDice) {
-        finishRollingDiceCount++
-        if finishRollingDiceCount == diceCount {
+        let activeDice = diceViews.filter(){$0.isAnimating()}
+        if activeDice.count == 0 {
             self.delegate?.diceViewDidEndRolling(self)
-            finishRollingDiceCount = 0
         }
     }
     func diceDidReceiveTap(dice: JW3DDice) {
@@ -234,6 +229,7 @@ internal class JW3DDice: UIImageView, JWDiceDynamicBehaviorDelegate {
     }
     private var insetValue : CGFloat
     var isRolling = false
+    var didContact = false
     var delegate: JW3DDiceDelegate?
     var diceWidth: CGFloat {
         get {
@@ -264,22 +260,24 @@ internal class JW3DDice: UIImageView, JWDiceDynamicBehaviorDelegate {
     //Expand & shrink frame before & after animation because static image size is larger than animation images.
     
     func roll() {
-        if isRolling {
+        if isAnimating() {
             return
         }
+        didContact = false
         animateWithCompletion({
-            self.isRolling = true
-            self.delegate?.diceDidStartRolling(self)
             self.animateRoll()
-            self.setRandomNumber()
+            self.expandSizeWithInsetValue(self.insetValue)
+            self.delegate?.diceDidStartRolling(self)
         }) {
             self.shrinkSizeWithInsetValue(self.insetValue)
-            self.isRolling = false
+            self.setRandomNumber()
             self.delegate?.diceDidEndRolling(self)
+        }
+        delay(1){
+            self.stopAnimating()
         }
     }
     private func animateRoll() {
-        expandSizeWithInsetValue(insetValue)
         animationImages = JWDiceImageHelper.sharedHelper.diceAnimateImage
         animationRepeatCount = 0
         startAnimating()
@@ -299,7 +297,11 @@ internal class JW3DDice: UIImageView, JWDiceDynamicBehaviorDelegate {
     
     //MARK: JWDiceDynamicBehaviorDelegate
     func didCollide(dice:JW3DDice) {
-        delay(1){
+        if !isAnimating() || didContact {
+            return
+        }
+        dice.didContact = true
+        delay(0.5){
             dice.stopAnimating()
         }
     }
