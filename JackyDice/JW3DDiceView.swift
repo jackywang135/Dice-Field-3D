@@ -11,13 +11,15 @@ import AVFoundation
 import CoreMotion
 
 protocol JW3DDiceViewDelegate {
-    func didReachMaxDiceCount(DiceView: JW3DDiceView)
-    func didGoUnderMaxDiceCount(DiceView: JW3DDiceView)
-    func didStartRolling(DiceView:JW3DDiceView)
-    func didEndRolling(DiceView:JW3DDiceView)
+    func diceViewDidReachMaxDiceCount(diceView: JW3DDiceView)
+    func diceViewDidGoUnderMaxDiceCount(diceView: JW3DDiceView)
+    func diceViewDidStartRolling(diceView:JW3DDiceView)
+    func diceViewDidEndRolling(diceView:JW3DDiceView)
+    func diceViewDidAddDice(diceView:JW3DDiceView)
+    func diceViewDidDeleteDice(diceView:JW3DDiceView)
 }
 
-class JW3DDiceView: UIView {
+class JW3DDiceView: UIView, JW3DDiceDelegate {
     //Customizable properties
     var diceWidth: CGFloat = 60
     var diceCount: Int {
@@ -41,6 +43,7 @@ class JW3DDiceView: UIView {
     var delegate: JW3DDiceViewDelegate?
     
     //Private
+    private var finishRollingDiceCount = 0
     private let defaultBackgroundImage = UIImage(named: "defaultBackground.jpg")
     private let diceMaxDensityInFrame : CGFloat = 1/7
     private let motionManager = CMMotionManager()
@@ -90,7 +93,7 @@ class JW3DDiceView: UIView {
 extension JW3DDiceView {
     func addDice() {
         if diceCount >= maxDiceCount {
-            delegate?.didReachMaxDiceCount(self)
+            delegate?.diceViewDidReachMaxDiceCount(self)
             return
         }
         let diceViewXposition = Int(arc4random_uniform(UInt32(self.frame.width - diceWidth)))
@@ -98,7 +101,9 @@ extension JW3DDiceView {
         addSubview(dice)
         diceBehavior.addItem(dice)
         diceBehavior.delegate = dice
+        dice.delegate = self
         playSound()
+        delegate?.diceViewDidAddDice(self)
         delay(0.5) { self.diceBehavior.gravityBehavior.removeItem(dice)}
     }
     func deleteDice() {
@@ -106,17 +111,17 @@ extension JW3DDiceView {
             return
         }
         if diceCount == maxDiceCount - 1 {
-            delegate?.didGoUnderMaxDiceCount(self)
+            delegate?.diceViewDidGoUnderMaxDiceCount(self)
         }
         diceViews.last?.removeFromSuperview()
+        delegate?.diceViewDidDeleteDice(self)
     }
     func roll() {
-        delegate?.didStartRolling(self)
+        delegate?.diceViewDidStartRolling(self)
         pushDice()
         diceViews.map() { $0.roll()}
         delay(1.0) {
             self.diceViews.map(){ $0.stopAnimating }
-            self.delegate?.didEndRolling(self)
         }
     }
     private func pushDice() {
@@ -140,7 +145,19 @@ extension JW3DDiceView {
         }
     }
 }
-
+//MARK: JW3DiceDelegate
+extension JW3DDiceView {
+    func diceDidStartRolling(dice: JW3DDice) {
+    
+    }
+    func diceDidEndRolling(dice: JW3DDice) {
+        finishRollingDiceCount++
+        if finishRollingDiceCount == diceCount {
+            self.delegate?.diceViewDidEndRolling(self)
+            finishRollingDiceCount = 0
+        }
+    }
+}
 //MARK: Sound
 extension JW3DDiceView {
     private func playSound() {
@@ -198,8 +215,8 @@ extension JW3DDiceView {
 }
 
 protocol JW3DDiceDelegate {
-    func didStartRolling(dice: JW3DDice)
-    func didEndRolling(dice: JW3DDice)
+    func diceDidStartRolling(dice: JW3DDice)
+    func diceDidEndRolling(dice: JW3DDice)
 }
 
 internal class JW3DDice: UIImageView, JWDiceDynamicBehaviorDelegate {
@@ -239,14 +256,13 @@ internal class JW3DDice: UIImageView, JWDiceDynamicBehaviorDelegate {
         }
         animateWithCompletion({
             self.isRolling = true
-            self.delegate?.didStartRolling(self)
+            self.delegate?.diceDidStartRolling(self)
             self.animateRoll()
-            
+            self.setRandomNumber()
         }) {
             self.shrinkSizeWithInsetValue(self.insetValue)
-            self.setRandomNumber()
             self.isRolling = false
-            self.delegate?.didEndRolling(self)
+            self.delegate?.diceDidEndRolling(self)
         }
     }
     private func animateRoll() {
@@ -255,7 +271,6 @@ internal class JW3DDice: UIImageView, JWDiceDynamicBehaviorDelegate {
         animationRepeatCount = 0
         startAnimating()
     }
-
     private func setRandomNumber() {
         number = Int(arc4random() % 6) + 1
     }
@@ -267,7 +282,7 @@ internal class JW3DDice: UIImageView, JWDiceDynamicBehaviorDelegate {
     }
     //MARK: JWDiceDynamicBehaviorDelegate
     func didCollide(dice:JW3DDice) {
-        delay(3){
+        delay(1){
             dice.stopAnimating()
         }
     }

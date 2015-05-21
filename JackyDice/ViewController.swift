@@ -138,17 +138,23 @@ extension ViewController {
 //MARK: JW3DDiceViewDelegate
 extension ViewController {
     
-    final func didReachMaxDiceCount(DiceView: JW3DDiceView) {
+    func diceViewDidReachMaxDiceCount(diceView: JW3DDiceView) {
         buttonAddDiceShouldEnable(false)
     }
-    final func didGoUnderMaxDiceCount(DiceView: JW3DDiceView) {
+    func diceViewDidGoUnderMaxDiceCount(diceView: JW3DDiceView) {
         buttonAddDiceShouldEnable(true)
     }
-    final func didStartRolling(DiceView:JW3DDiceView) {
+    func diceViewDidStartRolling(diceView:JW3DDiceView) {
         buttonShakeShouldEnable(false)
     }
-    final func didEndRolling(DiceView:JW3DDiceView) {
+    func diceViewDidEndRolling(diceView:JW3DDiceView) {
         buttonShakeShouldEnable(true)
+        updateTotalLabel()
+    }
+    func diceViewDidAddDice(diceView:JW3DDiceView) {
+        updateTotalLabel()
+    }
+    func diceViewDidDeleteDice(diceView:JW3DDiceView) {
         updateTotalLabel()
     }
 }
@@ -159,7 +165,6 @@ extension ViewController {
     final func pressedButtonAddDice(bottomView: BottomView) {
         animateViewPop(bottomView.buttonAddDice)
         diceView?.addDice()
-        updateTotalLabel()
     }
     final func pressedButtonShake(bottomView: BottomView) {
         diceView?.roll()
