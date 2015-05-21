@@ -92,8 +92,7 @@ class JW3DDiceView: UIView, JW3DDiceDelegate {
 //MARK: Dice Operations
 extension JW3DDiceView {
     func addDice() {
-        if diceCount >= maxDiceCount {
-            delegate?.diceViewDidReachMaxDiceCount(self)
+        if diceCount == maxDiceCount {
             return
         }
         let diceViewXposition = Int(arc4random_uniform(UInt32(self.frame.width - diceWidth)))
@@ -105,16 +104,17 @@ extension JW3DDiceView {
         playSound()
         delegate?.diceViewDidAddDice(self)
         delay(0.5) { self.diceBehavior.gravityBehavior.removeItem(dice)}
-    }
-    func deleteDice() {
-        if diceCount <= 0 {
+        if diceCount == maxDiceCount {
+            delegate?.diceViewDidReachMaxDiceCount(self)
             return
         }
+    }
+    func deleteDice(dice: JW3DDice) {
+        dice.removeFromSuperview()
+        delegate?.diceViewDidDeleteDice(self)
         if diceCount == maxDiceCount - 1 {
             delegate?.diceViewDidGoUnderMaxDiceCount(self)
         }
-        diceViews.last?.removeFromSuperview()
-        delegate?.diceViewDidDeleteDice(self)
     }
     func roll() {
         delegate?.diceViewDidStartRolling(self)
@@ -156,6 +156,12 @@ extension JW3DDiceView {
             self.delegate?.diceViewDidEndRolling(self)
             finishRollingDiceCount = 0
         }
+    }
+    func diceDidReceiveTap(dice: JW3DDice) {
+        if diceCount == 1 {
+            return
+        }
+        deleteDice(dice)
     }
 }
 //MARK: Sound
@@ -217,6 +223,7 @@ extension JW3DDiceView {
 protocol JW3DDiceDelegate {
     func diceDidStartRolling(dice: JW3DDice)
     func diceDidEndRolling(dice: JW3DDice)
+    func diceDidReceiveTap(dice: JW3DDice)
 }
 
 internal class JW3DDice: UIImageView, JWDiceDynamicBehaviorDelegate {
@@ -239,7 +246,9 @@ internal class JW3DDice: UIImageView, JWDiceDynamicBehaviorDelegate {
         number = 1
         super.init(frame: frame)
         image = JWDiceImageHelper.sharedHelper.getDiceImage(number)
-
+        var tapGesture = UITapGestureRecognizer(target: self, action:"didTap:")
+        addGestureRecognizer(tapGesture)
+        userInteractionEnabled = true
     }
     required init(coder aDecoder: NSCoder) {
         insetValue = 0
@@ -247,6 +256,10 @@ internal class JW3DDice: UIImageView, JWDiceDynamicBehaviorDelegate {
         super.init(coder: aDecoder)
         insetValue = diceWidth / 5
         image = JWDiceImageHelper.sharedHelper.getDiceImage(number)
+        var tapGesture = UITapGestureRecognizer(target: self, action:"didTap:")
+        addGestureRecognizer(tapGesture)
+        userInteractionEnabled = true
+        
     }
     //Expand & shrink frame before & after animation because static image size is larger than animation images.
     
@@ -280,6 +293,10 @@ internal class JW3DDice: UIImageView, JWDiceDynamicBehaviorDelegate {
     private func expandSizeWithInsetValue(float: CGFloat) {
         self.bounds = CGRectInset(self.bounds, -insetValue, -insetValue)
     }
+    func didTap(gesture:UITapGestureRecognizer) {
+        delegate?.diceDidReceiveTap(self)
+    }
+    
     //MARK: JWDiceDynamicBehaviorDelegate
     func didCollide(dice:JW3DDice) {
         delay(1){

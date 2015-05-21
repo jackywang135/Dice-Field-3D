@@ -20,14 +20,10 @@ class ViewController: UIViewController, BottomViewDelegate, ADBannerViewDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        diceView = JW3DDiceView(frame: CGRectMake(0, 0, screenWidth, screenHeight - bottomViewHeight))
-        diceView?.delegate = self
-        view.addSubview(diceView!)
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.None)
         setUpUI()
         delay(1) {diceView?.addDice()}
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -43,6 +39,7 @@ class ViewController: UIViewController, BottomViewDelegate, ADBannerViewDelegate
 extension ViewController {
 
     final private func setUpUI() {
+        setUpDiceView()
         setUpBottomView()
         setUpAdBannerView()
         animateBottomView()
@@ -58,38 +55,30 @@ extension ViewController {
         adBannerView.delegate = self
         view.addSubview(adBannerView)
     }
+    final private func setUpDiceView() {
+        diceView = JW3DDiceView(frame: CGRectMake(0, 0, screenWidth, screenHeight - bottomViewHeight))
+        diceView?.delegate = self
+        view.addSubview(diceView!)
+    }
 }
 
 //MARK: Animations
 extension ViewController {
 
     final private func animateBottomView() {
-        UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.TransitionNone, animations: {self.bottomView.frame = bottomViewNormalFrame}, completion: {(complete : Bool) in self.animateViewPop(self.bottomView.buttonShake)})
+        UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.TransitionNone, animations: {self.bottomView.frame = bottomViewNormalFrame}, completion: {(complete : Bool) in self.pop(self.bottomView.buttonShake)})
     }
-    
     final private func updateTotalLabel() {
         bottomView.labelTotal.text = "\(diceView!.total)"
-        animateViewPop(self.bottomView.labelTotal)
+        pop(self.bottomView.labelTotal)
     }
-    
     final private func buttonAddDiceShouldEnable(bool : Bool) {
-        self.bottomView.buttonAddDice.enabled = bool
-        animateViewPop(bottomView.buttonAddDice)
+        bottomView.buttonAddDice.enabled = bool
+        pop(bottomView.buttonAddDice)
     }
-    
     final private func buttonShakeShouldEnable(bool : Bool) {
-        self.bottomView.buttonShake.enabled = bool
-        animateViewPop(bottomView.buttonShake)
-    }
-    
-    final func animateDiceSpin(diceView : UIView, duration: Double) {
-        var spinAnimation = CABasicAnimation()
-        spinAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-        spinAnimation.toValue = 2 * M_PI
-        spinAnimation.duration = duration
-        spinAnimation.cumulative = false
-        spinAnimation.repeatCount = 1
-        diceView.layer.addAnimation(spinAnimation, forKey: "spinAnimation")
+        bottomView.buttonShake.enabled = bool
+        pop(bottomView.buttonShake)
     }
     
     final func showAd() {
@@ -109,7 +98,7 @@ extension ViewController {
                 self.adBannerView.frame = adHiddenFrame
         })
     }
-    final func animateViewPop(view : UIView) {
+    final func pop(view : UIView) {
         view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.001, 0.001)
         UIView.animateWithDuration(0.2/1.5, animations: {view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1)}, completion: {(complete : Bool) in
             UIView.animateWithDuration(0.2/2, animations: {view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.9, 0.9)}, completion: {(complete : Bool) in
@@ -138,23 +127,23 @@ extension ViewController {
 //MARK: JW3DDiceViewDelegate
 extension ViewController {
     
-    func diceViewDidReachMaxDiceCount(diceView: JW3DDiceView) {
+    final func diceViewDidReachMaxDiceCount(diceView: JW3DDiceView) {
         buttonAddDiceShouldEnable(false)
     }
-    func diceViewDidGoUnderMaxDiceCount(diceView: JW3DDiceView) {
+    final func diceViewDidGoUnderMaxDiceCount(diceView: JW3DDiceView) {
         buttonAddDiceShouldEnable(true)
     }
-    func diceViewDidStartRolling(diceView:JW3DDiceView) {
+    final func diceViewDidStartRolling(diceView:JW3DDiceView) {
         buttonShakeShouldEnable(false)
     }
-    func diceViewDidEndRolling(diceView:JW3DDiceView) {
+    final func diceViewDidEndRolling(diceView:JW3DDiceView) {
         buttonShakeShouldEnable(true)
         updateTotalLabel()
     }
-    func diceViewDidAddDice(diceView:JW3DDiceView) {
+    final func diceViewDidAddDice(diceView:JW3DDiceView) {
         updateTotalLabel()
     }
-    func diceViewDidDeleteDice(diceView:JW3DDiceView) {
+    final func diceViewDidDeleteDice(diceView:JW3DDiceView) {
         updateTotalLabel()
     }
 }
@@ -163,7 +152,7 @@ extension ViewController {
 extension ViewController {
     
     final func pressedButtonAddDice(bottomView: BottomView) {
-        animateViewPop(bottomView.buttonAddDice)
+        pop(bottomView.buttonAddDice)
         diceView?.addDice()
     }
     final func pressedButtonShake(bottomView: BottomView) {
