@@ -7,3 +7,10 @@
 #App Store
 
 [Dice Field 3D](https://itunes.apple.com/us/app/dice-field-3d/id946490633?mt=8) in the App Store.
+
+#Using
+
+If you'd like to use a similar dice view in your project, you can download this project or follow the instructions from this repository.
+
+[Click Me](https://github.com/jackywang135/JW3DDiceView)
+
